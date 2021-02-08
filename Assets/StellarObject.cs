@@ -20,13 +20,14 @@ public class StellarObject : MonoBehaviour
         foreach (StellarObject X in gameManager.stellarObjectList)
         {
             float distance = Vector3.Distance(X.transform.position, transform.position);
-            float force = (mass * X.mass * gameManager.gravityConstant) / (distance * distance);
+            float GravityForce = (mass * X.mass * gameManager.gravityConstant) / (distance * distance);
             Vector3 direction = (X.transform.position - transform.position);
-            direction =direction* force;
+            direction *=  GravityForce;
         }
     }
-    public void ApplyForce()
+    public void ApplyForce(Vector3 force)
     {
-
+        Vector3 acc = force / mass;
+       // velocity+=acc* (---temps---)
     }
 }
