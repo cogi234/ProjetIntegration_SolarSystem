@@ -6,8 +6,15 @@ public class StellarObject : MonoBehaviour
 {
     private GameManager gameManager;
     private Vector3 velocity;
+    private float volume; // en m ou km
     private float mass;
-    private float size;
+    private float density;
+   
+    //Ajuste automatiquement les valeurs des variables lors du changement d<une
+    public float Density { get => density; set { density = value; volume = mass / density; } }
+    public float Mass { get => mass;  set { mass = value; density = mass / volume; volume = mass / density; }} 
+    public float Volume { get => volume; set { volume = value; density = mass / volume; }  }
+    public float Radius => Mathf.Pow((volume / 4.1889f), (1 / 3f));
 
     void Start()
     {
@@ -15,19 +22,31 @@ public class StellarObject : MonoBehaviour
         gameManager.stellarObjectList.Add(this);
     }
 
-    public void ApplyGravity()
+    //prend chaque objet stellaire environnant (masse et distance) et calcule la force appliquée sur l'objet principal
+    public void ApplyGravity(float time)
     {
         foreach (StellarObject X in gameManager.stellarObjectList)
         {
-            float distance = Vector3.Distance(X.transform.position, transform.position);
-            float GravityForce = (mass * X.mass * gameManager.gravityConstant) / (distance * distance);
-            Vector3 direction = (X.transform.position - transform.position);
-            direction *=  GravityForce;
-        }
+            if(X != this)
+            {
+                float GravityForce = (Mass * X.Mass * gameManager.gravityConstant) 
+                    / Mathf.Pow(Vector3.Distance(X.transform.position, transform.position),2);
+                Vector3 direction = (X.transform.position - transform.position)*GravityForce;
+                ApplyForce(direction, time);
+            }
+        }  
     }
-    public void ApplyForce(Vector3 force)
+    
+    //cree un vecteur force a partir dun un objet stellaire
+    public void ApplyForce(Vector3 force, float time)
     {
-        Vector3 acc = force / mass;
-       // velocity+=acc* (---temps---)
+        //Vector3 acc = force / Mass;
+        velocity += (force / Mass) * time;
+    }
+
+    //applique un vecteur force a partir dun objet stellaire
+    public void ApplyVelocity(float time)
+    {
+        transform.position = velocity * time;
     }
 }
