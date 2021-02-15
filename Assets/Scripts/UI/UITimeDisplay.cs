@@ -15,8 +15,7 @@ public class UITimeDisplay : MonoBehaviour
     private void Update()
     {
         //Comme PlaceHolder, je met le temps de Time. On va changer ca avec les outils de controle de temps
-        float time = Time.time
-            ;
+        float time = Time.time;
         int year = Mathf.FloorToInt(time / 31536000);//31536000 secondes par an
         time -= year * 31536000;
         int day = Mathf.FloorToInt(time / 86400);//86400 secondes par jour
