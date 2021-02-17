@@ -54,6 +54,7 @@ public class StellarObject : MonoBehaviour
         gameManager.stellarObjectList.Add(this);//We add ourselves to the list of stellarobjects
         gameManager.CreateStellarObjectUI(this);//We create a UIStellarObject paired to this stellar object
 
+        transform.localScale = new Vector3(Radius, Radius, Radius);
     }
 
     //prend chaque objet stellaire environnant (masse et distance) et calcule la force appliquée sur l'objet principal
