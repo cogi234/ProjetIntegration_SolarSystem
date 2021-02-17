@@ -16,8 +16,9 @@ public class StellarObject : MonoBehaviour
         get => density; 
         set 
         { 
-            density = value; 
-            volume = mass / density; 
+            density = value;
+            volume = mass / density;
+            transform.localScale = new Vector3(Radius, Radius, Radius);
         } 
     }
     public float Mass 
@@ -26,8 +27,7 @@ public class StellarObject : MonoBehaviour
         set 
         { 
             mass = value; 
-            density = mass / volume; 
-            volume = mass / density; 
+            density = mass / volume;
         }
     }
     public float Radius => Mathf.Pow((volume / 4.1889f), (1 / 3f));
@@ -50,8 +50,11 @@ public class StellarObject : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-        gameManager.stellarObjectList.Add(this);
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();//We find the gamemanager
+        gameManager.stellarObjectList.Add(this);//We add ourselves to the list of stellarobjects
+        gameManager.CreateStellarObjectUI(this);//We create a UIStellarObject paired to this stellar object
+
+        transform.localScale = new Vector3(Radius, Radius, Radius);
     }
 
     //prend chaque objet stellaire environnant (masse et distance) et calcule la force appliquée sur l'objet principal

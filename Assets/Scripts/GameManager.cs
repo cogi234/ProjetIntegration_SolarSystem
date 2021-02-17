@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public List<StellarObject> stellarObjectList;
     public float gravityConstant;
 
+    [SerializeField]private GameObject stellarObjectUIPrefab;
+
     private void FixedUpdate()
     {
         foreach(StellarObject X in stellarObjectList) 
@@ -18,5 +20,12 @@ public class GameManager : MonoBehaviour
         {
             X.ApplyVelocity(Time.fixedDeltaTime);
         }
+    }
+
+    public void CreateStellarObjectUI(StellarObject stellarObject)
+    {
+        //We create the UIobject and assign it a stellar object
+        UIStellarObject stellarObjectUI = Instantiate(stellarObjectUIPrefab, GameObject.Find("OverlayCanvas").transform).GetComponent<UIStellarObject>();
+        stellarObjectUI.myObject = stellarObject;
     }
 }
