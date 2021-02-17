@@ -84,4 +84,9 @@ public class StellarObject : MonoBehaviour
     {
         transform.position += Velocity * time;
     }
+
+    private void OnMouseDown()
+    {
+        GameObject.Find("StellarObjectDisplay").GetComponent<UIStellarObjectDisplay>().selectedObject = this;
+    }
 }
