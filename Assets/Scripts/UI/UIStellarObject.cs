@@ -5,20 +5,31 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 
-[RequireComponent(typeof(StellarObject))]//We need a stellar object to work
 public class UIStellarObject : MonoBehaviour
 {
-    StellarObject myObject;
+    public StellarObject myObject;
     UIStellarObjectDisplay display;
+    RectTransform rectTransform;
+    Text nameDisplay;
 
     private void Start()
     {
-        myObject = GetComponent<StellarObject>();
+        nameDisplay = GetComponentInChildren<Text>();
+        rectTransform = GetComponent<RectTransform>();
         display = GameObject.Find("StellarObjectDisplay").GetComponent<UIStellarObjectDisplay>();//Il ne faut pas oublier de bien nommer l'objet
+
+        nameDisplay.text = myObject.name;
     }
 
-    private void OnMouseDown()
+    public void SelectedObject()
     {
         display.selectedObject = myObject;
+    }
+
+    private void Update()
+    {
+        //We make the icon follow its stellar object
+        Vector2 viewportPos = Camera.main.WorldToScreenPoint(myObject.transform.position);
+        rectTransform.anchoredPosition = viewportPos;
     }
 }
