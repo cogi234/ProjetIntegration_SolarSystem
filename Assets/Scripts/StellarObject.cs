@@ -6,11 +6,11 @@ public class StellarObject : MonoBehaviour
 {
     private GameManager gameManager;
     [SerializeField]private Vector3 velocity;
-    [SerializeField]private float volume; // en m ou km
-    [SerializeField] private float mass;
-    [SerializeField]private float density;
+    [SerializeField]private float volume = 1; // en m ou km
+    [SerializeField]private float mass = 1;
+    [SerializeField]private float density = 1;
    
-    //Ajuste automatiquement les valeurs des variables lors du changement d<une
+    //Ajuste automatiquement les valeurs des variables lors du changement d'une des variables
     public float Density 
     { 
         get => density; 
@@ -83,5 +83,25 @@ public class StellarObject : MonoBehaviour
     public void ApplyVelocity(float time)
     {
         transform.position += Velocity * time;
+    }
+
+    private void OnMouseDown()
+    {
+        GameObject.Find("StellarObjectDisplay").GetComponent<UIStellarObjectDisplay>().selectedObject = this;
+    }
+
+
+    public void Save(Queue<string> saveContent)
+    {
+        saveContent.Enqueue(name);
+        saveContent.Enqueue(mass.ToString());
+        saveContent.Enqueue(density.ToString());
+        saveContent.Enqueue(volume.ToString());
+        saveContent.Enqueue(velocity.x.ToString());
+        saveContent.Enqueue(velocity.y.ToString());
+        saveContent.Enqueue(velocity.z.ToString());
+        saveContent.Enqueue(transform.position.x.ToString());
+        saveContent.Enqueue(transform.position.y.ToString());
+        saveContent.Enqueue(transform.position.z.ToString());
     }
 }
