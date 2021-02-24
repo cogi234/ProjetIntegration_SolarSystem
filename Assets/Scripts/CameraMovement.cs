@@ -35,8 +35,8 @@ public class CameraMovement : MonoBehaviour
             }
             float X = xStellarObjectSum / gameManager.stellarObjectList.Count;
             float Z = zStellarObjectSum / gameManager.stellarObjectList.Count;
-            float Y = Vector3.Distance(new Vector3(X,0,Z), gameManager.stellarObjectList);
-            transform.position = new Vector3(X, Y,Z );
+            float Y = Mathf.Max(X, Z);
+            transform.position = new Vector3(X, Y, Z);
         }
     }
 }

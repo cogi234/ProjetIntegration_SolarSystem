@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     }
     public GameObject CreateStellarObject(string name, float mass, float density, float volume, Vector3 velocity, Vector3 position)
     {
-        GameObject gObject = Instantiate(sunObjectPrefab, position, Quaternion.identity);
+        GameObject gObject = Instantiate(stellarObjectPrefab, position, Quaternion.identity);
         StellarObject sObject = gObject.GetComponent<StellarObject>();
         gObject.name = name;
         sObject.Mass = mass;
@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        //These inputs should be changed to use the input manager once everything works
         if (Input.GetKeyDown(KeyCode.S))
         {
             SaveSolarSystem("test");
@@ -74,6 +75,10 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.L))
         {
             LoadSolarSystem("test");
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetSolarSystem();
         }
     }
 
@@ -100,16 +105,7 @@ public class GameManager : MonoBehaviour
     public void LoadSolarSystem(string fileName)
     {
         //We reset the field
-        for (int i = GameObject.Find("OverlayCanvas").transform.childCount - 1; i >= 0; i--)
-        {
-            Destroy(GameObject.Find("OverlayCanvas").transform.GetChild(i).gameObject);
-        }
-        for (int i = stellarObjectList.Count - 1; i >= 0; i--)
-        {
-            Destroy(stellarObjectList[i]);
-            stellarObjectList.RemoveAt(i);
-        }
-        
+        ResetSolarSystem();        
 
         //we take the file
         string saveString = File.ReadAllText($"{Application.persistentDataPath}/{fileName}.txt");
@@ -129,13 +125,30 @@ public class GameManager : MonoBehaviour
             Vector3 velocity = new Vector3(float.Parse(saveContent.Dequeue()), float.Parse(saveContent.Dequeue()), float.Parse(saveContent.Dequeue()));
             Vector3 position = new Vector3(float.Parse(saveContent.Dequeue()), float.Parse(saveContent.Dequeue()), float.Parse(saveContent.Dequeue()));
 
+            //If the name starts with Sun, we create a sun, otherwise it is a normal stellar object like a planet or a moon.
             if (name.StartsWith("Sun"))
             {
+
                 CreateSun(name, mass, density, volume, velocity, position);
-            } else
+            } 
+            else
             {
                 CreateStellarObject(name, mass, density, volume, velocity, position);
             }
+        }
+    }
+
+    private void ResetSolarSystem()//This is a function to reset the solar system to empty.
+    {
+        for (int i = GameObject.Find("OverlayCanvas").transform.childCount - 1; i >= 0; i--)//This deletes all overlays associated with stellar objects
+        {
+            Destroy(GameObject.Find("OverlayCanvas").transform.GetChild(i).gameObject);
+        }
+
+        for (int i = stellarObjectList.Count - 1; i >= 0; i--)
+        {
+            Destroy(stellarObjectList[i].gameObject);
+            stellarObjectList.RemoveAt(i);
         }
     }
 }

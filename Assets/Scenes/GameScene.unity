@@ -519,7 +519,6 @@ GameObject:
   - component: {fileID: 422674426}
   - component: {fileID: 422674425}
   - component: {fileID: 422674424}
-  - component: {fileID: 422674423}
   - component: {fileID: 422674422}
   m_Layer: 0
   m_Name: StellarObject
@@ -544,19 +543,6 @@ MonoBehaviour:
   volume: 1
   mass: 1
   density: 1
---- !u!135 &422674423
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422674421}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &422674424
 MeshRenderer:
   m_ObjectHideFlags: 0
