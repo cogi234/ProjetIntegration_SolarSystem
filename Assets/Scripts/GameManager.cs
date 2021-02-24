@@ -7,7 +7,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public List<StellarObject> stellarObjectList;
-    public string saveName = "";
     public float gravityConstant;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
@@ -60,28 +59,11 @@ public class GameManager : MonoBehaviour
         return gObject;
     }
 
-    private void Start()
-    {
-        Debug.Log(Application.persistentDataPath);
-    }
 
-    private void Update()
+    public string[] GetSaveNames()
     {
-        //These inputs should be changed to use the input manager once everything works
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveSolarSystem("test");
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadSolarSystem("test");
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetSolarSystem();
-        }
+        return Directory.GetFiles(Application.persistentDataPath, "*.sav");
     }
-
 
     public const string SAVE_SEPARATOR = "|\n|";
     public void SaveSolarSystem(string fileName)
@@ -97,9 +79,7 @@ public class GameManager : MonoBehaviour
 
         //Then we join everything into a string to save into the file
         string saveString = string.Join(SAVE_SEPARATOR, saveContent);
-        File.WriteAllText($"{Application.persistentDataPath}/{fileName}.txt", saveString);
-
-        Debug.Log(saveString);
+        File.WriteAllText($"{Application.persistentDataPath}/{fileName}.sav", saveString);
     }
 
     public void LoadSolarSystem(string fileName)
@@ -108,12 +88,13 @@ public class GameManager : MonoBehaviour
         ResetSolarSystem();        
 
         //we take the file
-        string saveString = File.ReadAllText($"{Application.persistentDataPath}/{fileName}.txt");
+        string saveString = File.ReadAllText($"{Application.persistentDataPath}/{fileName}.sav");
         //we split the string into all the separate values and put it into a queue
         Queue<string> saveContent = new Queue<string>(saveString.Split(SAVE_SEPARATOR.ToCharArray(), StringSplitOptions.RemoveEmptyEntries));
 
         //We load the gameManager data
         gravityConstant = float.Parse(saveContent.Dequeue());
+
 
         //As long as some data remains, we continue to create stellarObjects
         while(saveContent.Count > 0)
