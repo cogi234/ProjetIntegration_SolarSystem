@@ -35,7 +35,7 @@ public class CameraMovement : MonoBehaviour
 
 
         //auto adjust camera to show the whole solar system (paired with Gamemanager)
-        if (Input.GetKey(KeyCode.Space)) 
+        if (Input.GetKey(KeyCode.R)) 
         {
             float MaxDistance = 0;
             
