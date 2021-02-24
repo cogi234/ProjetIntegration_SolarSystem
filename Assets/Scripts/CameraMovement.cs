@@ -7,36 +7,44 @@ public class CameraMovement : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] float mouseSensitivity;
     [SerializeField] float movementSpeed;
-
+    [SerializeField] float reframingFOV;
 
     private void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-        
-
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
     }
+
     void Update()
     {
-        transform.Translate(Input.GetAxis("Horizontal")*movementSpeed, Input.GetAxis("Vertical")*movementSpeed, 0);
-        transform.Rotate(Input.GetAxis("Mouse Y")*mouseSensitivity, Input.GetAxis("Mouse X")*mouseSensitivity, 0);
-
-
-        
-        if (Input.GetKeyDown("space")) 
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            float xStellarObjectSum = 0;
-            float zStellarObjectSum = 0;
+            if (Cursor.lockState == CursorLockMode.None) { Cursor.lockState = CursorLockMode.Locked; }
+            else { Cursor.lockState = CursorLockMode.None; }
+        }
+
+        //control mouse and WASD movement
+        if(Cursor.lockState == CursorLockMode.Locked)
+        {
+            transform.Rotate(Input.GetAxis("Mouse Y") * -mouseSensitivity, Input.GetAxis("Mouse X") * mouseSensitivity, 0, Space.Self);
+        }
+
+        transform.Translate(Input.GetAxis("Horizontal") * movementSpeed, 0, Input.GetAxis("Vertical") * movementSpeed, Space.Self);
+
+
+
+        //auto adjust camera to show the whole solar system (paired with Gamemanager)
+        if (Input.GetKey(KeyCode.Space)) 
+        {
+            float MaxDistance = 0;
             
-            //a terminer
-            foreach (StellarObject A in gameManager.stellarObjectList)
+            foreach(StellarObject A in gameManager.stellarObjectList)
             {
-                xStellarObjectSum += A.transform.position.x;
-                zStellarObjectSum += A.transform.position.z;
+                if (A.transform.position.magnitude > MaxDistance) { MaxDistance = A.transform.position.magnitude; }
             }
-            float X = xStellarObjectSum / gameManager.stellarObjectList.Count;
-            float Z = zStellarObjectSum / gameManager.stellarObjectList.Count;
-            float Y = Mathf.Max(X, Z);
-            transform.position = new Vector3(X, Y, Z);
+            transform.position = new Vector3(0,MaxDistance*reframingFOV, 0);
+            transform.rotation = Quaternion.Euler(new Vector3(90,0,0));
         }
     }
 }

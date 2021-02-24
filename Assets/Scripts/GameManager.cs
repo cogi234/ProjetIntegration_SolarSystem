@@ -17,17 +17,37 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        foreach(StellarObject X in stellarObjectList) 
+        foreach(StellarObject A in stellarObjectList) 
         {
-            X.ApplyGravity(Time.fixedDeltaTime);
+            A.ApplyGravity(Time.fixedDeltaTime);
         }
 
-        foreach(StellarObject X in stellarObjectList) 
+        foreach(StellarObject A in stellarObjectList) 
         {
-            X.ApplyVelocity(Time.fixedDeltaTime);
+            A.ApplyVelocity(Time.fixedDeltaTime);
+        }
+
+        //auto adjust camera to show the whole solar system (paired with CameraMovement)
+        float xStellarObjectSum = 0;
+        float yStellarObjectSum = 0;
+        float zStellarObjectSum = 0;
+
+        foreach (StellarObject A in stellarObjectList)
+        {
+            xStellarObjectSum += A.transform.position.x;
+            yStellarObjectSum += A.transform.position.y;
+            zStellarObjectSum += A.transform.position.z;
+        }
+        float X = xStellarObjectSum / stellarObjectList.Count;
+        float Y = yStellarObjectSum / stellarObjectList.Count;
+        float Z = zStellarObjectSum / stellarObjectList.Count;
+
+        foreach (StellarObject A in stellarObjectList)
+        {
+            A.transform.Translate( -X, -Y, -Z, Space.World);
         }
     }
-
+    
     public void CreateStellarObjectUI(StellarObject stellarObject)
     {
         //We create the UIobject and assign it a stellar object
@@ -59,29 +79,6 @@ public class GameManager : MonoBehaviour
 
         return gObject;
     }
-
-    private void Start()
-    {
-        Debug.Log(Application.persistentDataPath);
-    }
-
-    private void Update()
-    {
-        //These inputs should be changed to use the input manager once everything works
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveSolarSystem("test");
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadSolarSystem("test");
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetSolarSystem();
-        }
-    }
-
 
     public const string SAVE_SEPARATOR = "|\n|";
     public void SaveSolarSystem(string fileName)

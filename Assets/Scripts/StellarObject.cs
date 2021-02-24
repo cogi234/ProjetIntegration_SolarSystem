@@ -56,6 +56,7 @@ public class StellarObject : MonoBehaviour
 
         transform.localScale = new Vector3(Radius, Radius, Radius);
     }
+    
 
     //prend chaque objet stellaire environnant (masse et distance) et calcule la force appliquée sur l'objet principal
     public void ApplyGravity(float time)
