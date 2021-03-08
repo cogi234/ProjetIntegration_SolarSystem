@@ -8,22 +8,28 @@ public class GameManager : MonoBehaviour
 {
     public List<StellarObject> stellarObjectList;
     public float gravityConstant;
+    public float timeFactor = 1 ;
+    public double absoluteTime = 0;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
     [SerializeField] private GameObject stellarObjectPrefab;
     [SerializeField] private GameObject sunObjectPrefab;
+    
 
 
     private void FixedUpdate()
     {
+        float realDeltaTime = Time.deltaTime * timeFactor;
+        absoluteTime += realDeltaTime;
+
         foreach(StellarObject A in stellarObjectList) 
         {
-            A.ApplyGravity(Time.fixedDeltaTime);
+            A.ApplyGravity(realDeltaTime);
         }
 
         foreach(StellarObject A in stellarObjectList) 
         {
-            A.ApplyVelocity(Time.fixedDeltaTime);
+            A.ApplyVelocity(realDeltaTime);
         }
 
         //auto adjust camera to show the whole solar system (paired with CameraMovement)
