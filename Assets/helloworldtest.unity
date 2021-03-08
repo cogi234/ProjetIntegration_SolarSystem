@@ -732,7 +732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &815662452
 Transform:
   m_ObjectHideFlags: 0
@@ -1556,7 +1556,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stellarObjectList: []
-  saveName: 
   gravityConstant: 30
   stellarObjectUIPrefab: {fileID: 0}
   stellarObjectPrefab: {fileID: 0}
@@ -1704,7 +1703,7 @@ PrefabInstance:
     - target: {fileID: 1044109534571623764, guid: 55dbd75d9854ef7468a20813a24b6796,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1044109534571623765, guid: 55dbd75d9854ef7468a20813a24b6796,
         type: 3}
