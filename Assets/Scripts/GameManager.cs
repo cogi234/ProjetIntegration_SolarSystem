@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject stellarObjectUIPrefab;
     [SerializeField] private GameObject stellarObjectPrefab;
     [SerializeField] private GameObject sunObjectPrefab;
-
+    
 
     private void FixedUpdate()
     {
@@ -54,27 +54,29 @@ public class GameManager : MonoBehaviour
         stellarObjectUI.myObject = stellarObject;
     }
 
-    public GameObject CreateSun(string name, float mass, float density, float volume, Vector3 velocity, Vector3 position)
+    public GameObject CreateSun(string name, float mass, float density, Vector3 velocity, Vector3 position)
     {
         GameObject gObject = Instantiate(sunObjectPrefab, position, Quaternion.identity);
         StellarObject sObject = gObject.GetComponent<StellarObject>();
         gObject.name = name;
         sObject.Mass = mass;
         sObject.Density = density;
-        sObject.Volume = volume;
         sObject.Velocity = velocity;
+
+        sObject.Initialise();
 
         return gObject;
     }
-    public GameObject CreateStellarObject(string name, float mass, float density, float volume, Vector3 velocity, Vector3 position)
+    public GameObject CreateStellarObject(string name, float mass, float density, Vector3 velocity, Vector3 position)
     {
         GameObject gObject = Instantiate(stellarObjectPrefab, position, Quaternion.identity);
         StellarObject sObject = gObject.GetComponent<StellarObject>();
         gObject.name = name;
         sObject.Mass = mass;
         sObject.Density = density;
-        sObject.Volume = volume;
         sObject.Velocity = velocity;
+
+        sObject.Initialise();
 
         return gObject;
     }
@@ -120,7 +122,6 @@ public class GameManager : MonoBehaviour
             string name = saveContent.Dequeue();
             float mass = float.Parse(saveContent.Dequeue());
             float density = float.Parse(saveContent.Dequeue());
-            float volume = float.Parse(saveContent.Dequeue());
             Vector3 velocity = new Vector3(float.Parse(saveContent.Dequeue()), float.Parse(saveContent.Dequeue()), float.Parse(saveContent.Dequeue()));
             Vector3 position = new Vector3(float.Parse(saveContent.Dequeue()), float.Parse(saveContent.Dequeue()), float.Parse(saveContent.Dequeue()));
 
@@ -128,11 +129,11 @@ public class GameManager : MonoBehaviour
             if (name.StartsWith("Sun"))
             {
 
-                CreateSun(name, mass, density, volume, velocity, position);
+                CreateSun(name, mass, density, velocity, position);
             } 
             else
             {
-                CreateStellarObject(name, mass, density, volume, velocity, position);
+                CreateStellarObject(name, mass, density, velocity, position);
             }
         }
     }

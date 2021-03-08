@@ -33,7 +33,6 @@ public class UILoadContent : MonoBehaviour
             //for each save, we create a button that will load its associated save
             string realName = name.Substring(Application.persistentDataPath.Length + 1, name.Length - Application.persistentDataPath.Length - 5);
 
-
             GameObject button = Instantiate(buttonPrefab, transform);
             button.GetComponent<Button>().onClick.AddListener(delegate { gameManager.LoadSolarSystem(realName); });
             button.GetComponentInChildren<Text>().text = realName;

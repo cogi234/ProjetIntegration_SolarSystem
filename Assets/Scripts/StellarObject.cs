@@ -56,6 +56,11 @@ public class StellarObject : MonoBehaviour
 
         transform.localScale = new Vector3(Radius, Radius, Radius);
     }
+
+    public void Initialise()//This will make sure that the volume and density match
+    {
+        Density = density;
+    }
     
 
     //prend chaque objet stellaire environnant (masse et distance) et calcule la force appliquée sur l'objet principal
@@ -97,7 +102,6 @@ public class StellarObject : MonoBehaviour
         saveContent.Enqueue(name);
         saveContent.Enqueue(mass.ToString());
         saveContent.Enqueue(density.ToString());
-        saveContent.Enqueue(volume.ToString());
         saveContent.Enqueue(velocity.x.ToString());
         saveContent.Enqueue(velocity.y.ToString());
         saveContent.Enqueue(velocity.z.ToString());
