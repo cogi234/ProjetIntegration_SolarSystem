@@ -20,7 +20,7 @@ public class GenerationManager : MonoBehaviour
         random = new System.Random();
     }
 
-    public void SimpleGeneratePlanet(StellarObject orbitedObject, bool flatPlane, float minOrbit, float maxOrbit)
+    public void SimpleGeneratePlanet(StellarObject orbitedObject, bool flatPlane, float orbitDistance)
     {
         //In which direction will the stellar object be positionned, relative to its orbited object
         Vector3 direction = new Vector3();
@@ -31,10 +31,8 @@ public class GenerationManager : MonoBehaviour
         else
             direction.y = GetRandomFloat(-1, 1);
 
-        //Then we choose the distance and get the position
-        float distance = GetRandomFloat(minOrbit, maxOrbit);
-
-        Vector3 position = (direction.normalized * distance) + orbitedObject.transform.position;
+        //Then we get the position
+        Vector3 position = (direction.normalized * orbitDistance) + orbitedObject.transform.position;
 
         //we use the implementation 
         SimpleGeneratePlanet(orbitedObject, flatPlane, position);

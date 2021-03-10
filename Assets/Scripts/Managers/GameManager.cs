@@ -71,9 +71,6 @@ public class GameManager : MonoBehaviour
             A.transform.Translate( -X, -Y, -Z, Space.World);
         }
 
-        //Debug
-        if (stellarObjectList.Count > 1)
-            Debug.Log(Vector3.Distance(stellarObjectList[0].transform.position, stellarObjectList[1].transform.position));
     }
     
     public void CreateStellarObjectUI(StellarObject stellarObject)

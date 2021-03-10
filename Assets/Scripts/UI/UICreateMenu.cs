@@ -17,11 +17,10 @@ public class UICreateMenu : MonoBehaviour
 
     //Procedural Creation:
     public bool ProcGenFlatPlane { get; set; }
-    public string ProcGenMinOrbit { get; set; }
-    public string ProcGenMaxOrbit { get; set; }
+    public string ProcGenOrbitDistance { get; set; }
 
     public void GeneratePlanet()
     {
-        generationManager.SimpleGeneratePlanet(uiManager.selectedObject, ProcGenFlatPlane, float.Parse(ProcGenMinOrbit), float.Parse(ProcGenMaxOrbit));
+        generationManager.SimpleGeneratePlanet(uiManager.selectedObject, ProcGenFlatPlane, float.Parse(ProcGenOrbitDistance));
     }
 }
