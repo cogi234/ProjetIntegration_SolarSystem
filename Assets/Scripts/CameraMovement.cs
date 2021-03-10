@@ -18,6 +18,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
+        //Lock and unlock mouse
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (Cursor.lockState == CursorLockMode.None) { Cursor.lockState = CursorLockMode.Locked; }
@@ -37,12 +38,14 @@ public class CameraMovement : MonoBehaviour
         //auto adjust camera to show the whole solar system (paired with Gamemanager)
         if (Input.GetKey(KeyCode.R)) 
         {
-            float MaxDistance = 0;
+            float MaxDistance = 15;
             
             foreach(StellarObject A in gameManager.stellarObjectList)
             {
                 if (A.transform.position.magnitude > MaxDistance) { MaxDistance = A.transform.position.magnitude; }
             }
+
+
             transform.position = new Vector3(0,MaxDistance*reframingFOV, 0);
             transform.rotation = Quaternion.Euler(new Vector3(90,0,0));
         }

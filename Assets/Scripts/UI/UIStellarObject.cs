@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class UIStellarObject : MonoBehaviour
 {
     public StellarObject myObject;
-    UIStellarObjectDisplay display;
+    UIManager uiManager;
     RectTransform rectTransform;
     Text nameDisplay;
 
@@ -16,14 +16,14 @@ public class UIStellarObject : MonoBehaviour
     {
         nameDisplay = GetComponentInChildren<Text>();
         rectTransform = GetComponent<RectTransform>();
-        display = GameObject.Find("StellarObjectDisplay").GetComponent<UIStellarObjectDisplay>();//Il ne faut pas oublier de bien nommer l'objet
+        uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();//We find the uiManager
 
         nameDisplay.text = myObject.name;
     }
 
     public void SelectedObject()
     {
-        display.selectedObject = myObject;
+        uiManager.selectedObject = myObject;
     }
 
     private void Update()

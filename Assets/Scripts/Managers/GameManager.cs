@@ -15,40 +15,65 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject stellarObjectPrefab;
     [SerializeField] private GameObject sunObjectPrefab;
 
+    UIManager uiManager;
+    GenerationManager generationManager;
+
+    private void Start()
+    {
+        uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();//We find the uiManager
+        generationManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GenerationManager>();//We find the generationManager
+    }
+
     private void FixedUpdate()
     {
         float realDeltaTime = Time.deltaTime * timeFactor;
         absoluteTime += realDeltaTime;
 
-        foreach(StellarObject A in stellarObjectList) 
+        foreach (StellarObject A in stellarObjectList)
         {
             A.ApplyGravity(realDeltaTime);
         }
 
-        foreach(StellarObject A in stellarObjectList) 
+        foreach (StellarObject A in stellarObjectList)
         {
             A.ApplyVelocity(realDeltaTime);
         }
 
-        //auto adjust camera to show the whole solar system (paired with CameraMovement)
-        float xStellarObjectSum = 0;
-        float yStellarObjectSum = 0;
-        float zStellarObjectSum = 0;
 
-        foreach (StellarObject A in stellarObjectList)
+        //Centering the system:
+        float X, Y, Z;
+        if (uiManager.selectedObject == null)//If there's no selected object, we center on the center of the system
         {
-            xStellarObjectSum += A.transform.position.x;
-            yStellarObjectSum += A.transform.position.y;
-            zStellarObjectSum += A.transform.position.z;
+            //auto adjust camera to show the whole solar system (paired with CameraMovement)
+            float xStellarObjectSum = 0;
+            float yStellarObjectSum = 0;
+            float zStellarObjectSum = 0;
+
+            foreach (StellarObject A in stellarObjectList)
+            {
+                xStellarObjectSum += A.transform.position.x;
+                yStellarObjectSum += A.transform.position.y;
+                zStellarObjectSum += A.transform.position.z;
+            }
+            X = xStellarObjectSum / stellarObjectList.Count;
+            Y = yStellarObjectSum / stellarObjectList.Count;
+            Z = zStellarObjectSum / stellarObjectList.Count;
         }
-        float X = xStellarObjectSum / stellarObjectList.Count;
-        float Y = yStellarObjectSum / stellarObjectList.Count;
-        float Z = zStellarObjectSum / stellarObjectList.Count;
+        else//otherwise, we center on the selected object
+        {
+            X = uiManager.selectedObject.transform.position.x;
+            Y = uiManager.selectedObject.transform.position.y;
+            Z = uiManager.selectedObject.transform.position.z;
+        }
 
         foreach (StellarObject A in stellarObjectList)
         {
             A.transform.Translate( -X, -Y, -Z, Space.World);
         }
+
+        //Debug
+        if (stellarObjectList.Count > 1)
+            Debug.Log(Vector3.Distance(stellarObjectList[0].transform.position, stellarObjectList[1].transform.position));
     }
     
     public void CreateStellarObjectUI(StellarObject stellarObject)
