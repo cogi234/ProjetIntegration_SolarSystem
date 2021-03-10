@@ -2230,7 +2230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 1
   movementSpeed: 0.1
-  reframingFOV: 1.5
+  reframingFOV: 5
 --- !u!1001 &996231508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2241,7 +2241,12 @@ PrefabInstance:
     - target: {fileID: 8731985306203214552, guid: e11f2967d462a834490af12ba0d9268e,
         type: 3}
       propertyPath: mass
-      value: 10
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731985306203214552, guid: e11f2967d462a834490af12ba0d9268e,
+        type: 3}
+      propertyPath: volume
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8731985306203214552, guid: e11f2967d462a834490af12ba0d9268e,
         type: 3}
@@ -2251,7 +2256,7 @@ PrefabInstance:
     - target: {fileID: 8731985306203214552, guid: e11f2967d462a834490af12ba0d9268e,
         type: 3}
       propertyPath: velocity.z
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8731985306203214553, guid: e11f2967d462a834490af12ba0d9268e,
         type: 3}
@@ -3807,7 +3812,12 @@ PrefabInstance:
     - target: {fileID: 8731985306203214552, guid: e11f2967d462a834490af12ba0d9268e,
         type: 3}
       propertyPath: mass
-      value: 1
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731985306203214552, guid: e11f2967d462a834490af12ba0d9268e,
+        type: 3}
+      propertyPath: volume
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8731985306203214552, guid: e11f2967d462a834490af12ba0d9268e,
         type: 3}
@@ -3817,7 +3827,7 @@ PrefabInstance:
     - target: {fileID: 8731985306203214552, guid: e11f2967d462a834490af12ba0d9268e,
         type: 3}
       propertyPath: velocity.z
-      value: -5
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 8731985306203214553, guid: e11f2967d462a834490af12ba0d9268e,
         type: 3}
