@@ -54,7 +54,7 @@ public class StellarObject : MonoBehaviour
         gameManager.stellarObjectList.Add(this);//We add ourselves to the list of stellarobjects
         gameManager.CreateStellarObjectUI(this);//We create a UIStellarObject paired to this stellar object
 
-        transform.localScale = new Vector3(Radius, Radius, Radius);
+        Initialise();
     }
 
     public void Initialise()//This will make sure that the volume and density match
@@ -68,11 +68,11 @@ public class StellarObject : MonoBehaviour
     {
         foreach (StellarObject X in gameManager.stellarObjectList)
         {
-            if(X != this)
+            if (X != this)
             {
-                float GravityForce = (Mass * X.Mass * gameManager.gravityConstant) 
-                    / Mathf.Pow(Vector3.Distance(X.transform.position, transform.position),2);
-                Vector3 direction = (X.transform.position - transform.position)*GravityForce;
+                float GravityForce = (Mass * X.Mass * gameManager.gravityConstant)
+                    / Mathf.Pow(Vector3.Distance(X.transform.position, transform.position), 2);
+                Vector3 direction = (X.transform.position - transform.position).normalized * GravityForce;
                 ApplyForce(direction, time);
             }
         }  
@@ -93,7 +93,7 @@ public class StellarObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        GameObject.Find("StellarObjectDisplay").GetComponent<UIStellarObjectDisplay>().selectedObject = this;
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>().selectedObject = this;
     }
 
 
