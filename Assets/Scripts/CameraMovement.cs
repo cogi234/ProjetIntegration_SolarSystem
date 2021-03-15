@@ -28,7 +28,7 @@ public class CameraMovement : MonoBehaviour
         //control mouse and WASD movement
         if(Cursor.lockState == CursorLockMode.Locked)
         {
-            transform.Rotate(Input.GetAxis("Mouse Y") * -mouseSensitivity * Time.deltaTime, Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime, 0, Space.Self);
+            transform.Rotate(Input.GetAxis("Mouse Y") * -mouseSensitivity, Input.GetAxis("Mouse X") * mouseSensitivity, 0, Space.Self);
         }
 
         transform.Translate(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime, Space.Self);

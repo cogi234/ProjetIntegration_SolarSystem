@@ -21,7 +21,7 @@ public class UISaveContent : MonoBehaviour
             gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();//We find the gamemanager
 
         //We get all the save names
-        string[] saveNames = gameManager.GetSaveNames();
+        string[] saveNames = GameManager.GetSaveNames();
 
         //We destroy all existing buttons, to replace them with new buttons, in case the save files changed
         for (int i = transform.childCount - 1; i >= 0; i--)

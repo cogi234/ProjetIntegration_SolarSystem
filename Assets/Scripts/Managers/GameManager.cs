@@ -4,8 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+
+public enum SceneStart
+{
+    AsIs, Empty, Load, Generate
+}
+
 public class GameManager : MonoBehaviour
 {
+    public static SceneStart sceneStart;
+
     public List<StellarObject> stellarObjectList;
     public float gravityConstant;
     public float timeFactor = 1 ;
@@ -18,11 +26,31 @@ public class GameManager : MonoBehaviour
     UIManager uiManager;
     GenerationManager generationManager;
 
+    private void Awake()
+    {
+        uiManager = GetComponent<UIManager>();//We find the uiManager
+        generationManager = GetComponent<GenerationManager>();//We find the generationManager
+    }
     private void Start()
     {
-        uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();//We find the uiManager
-        generationManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GenerationManager>();//We find the generationManager
+        //We initialise the scene
+        switch (sceneStart)
+        {
+            case SceneStart.Empty:
+                ResetSolarSystem();
+                break;
+            case SceneStart.Load:
+                LoadSolarSystem(PlayerPrefs.GetString("fileNameToLoad"));
+                break;
+            case SceneStart.Generate:
+                ResetSolarSystem();
+                generationManager.SimpleGenerateSystem(PlayerPrefs.GetInt("flatPlane") == 1, PlayerPrefs.GetFloat("sunMass"), PlayerPrefs.GetFloat("sunSize"), PlayerPrefs.GetInt("planetNumber"), PlayerPrefs.GetInt("minMoonNumber"), PlayerPrefs.GetInt("maxMoonNumber"));
+                break;
+            default:
+                break;
+        }
     }
+
 
     private void FixedUpdate()
     {
@@ -39,38 +67,39 @@ public class GameManager : MonoBehaviour
             A.ApplyVelocity(realDeltaTime);
         }
 
-
-        //Centering the system:
-        float X, Y, Z;
-        if (uiManager.selectedObject == null)//If there's no selected object, we center on the center of the system
+        if (stellarObjectList.Count > 0)
         {
-            //auto adjust camera to show the whole solar system (paired with CameraMovement)
-            float xStellarObjectSum = 0;
-            float yStellarObjectSum = 0;
-            float zStellarObjectSum = 0;
+            //Centering the system:
+            float X, Y, Z;
+            if (uiManager.selectedObject == null)//If there's no selected object, we center on the center of the system
+            {
+                //auto adjust camera to show the whole solar system (paired with CameraMovement)
+                float xStellarObjectSum = 0;
+                float yStellarObjectSum = 0;
+                float zStellarObjectSum = 0;
+
+                foreach (StellarObject A in stellarObjectList)
+                {
+                    xStellarObjectSum += A.transform.position.x;
+                    yStellarObjectSum += A.transform.position.y;
+                    zStellarObjectSum += A.transform.position.z;
+                }
+                X = xStellarObjectSum / stellarObjectList.Count;
+                Y = yStellarObjectSum / stellarObjectList.Count;
+                Z = zStellarObjectSum / stellarObjectList.Count;
+            }
+            else//otherwise, we center on the selected object
+            {
+                X = uiManager.selectedObject.transform.position.x;
+                Y = uiManager.selectedObject.transform.position.y;
+                Z = uiManager.selectedObject.transform.position.z;
+            }
 
             foreach (StellarObject A in stellarObjectList)
             {
-                xStellarObjectSum += A.transform.position.x;
-                yStellarObjectSum += A.transform.position.y;
-                zStellarObjectSum += A.transform.position.z;
+                A.transform.Translate(-X, -Y, -Z, Space.World);
             }
-            X = xStellarObjectSum / stellarObjectList.Count;
-            Y = yStellarObjectSum / stellarObjectList.Count;
-            Z = zStellarObjectSum / stellarObjectList.Count;
         }
-        else//otherwise, we center on the selected object
-        {
-            X = uiManager.selectedObject.transform.position.x;
-            Y = uiManager.selectedObject.transform.position.y;
-            Z = uiManager.selectedObject.transform.position.z;
-        }
-
-        foreach (StellarObject A in stellarObjectList)
-        {
-            A.transform.Translate( -X, -Y, -Z, Space.World);
-        }
-
     }
     
     public void CreateStellarObjectUI(StellarObject stellarObject)
@@ -106,7 +135,7 @@ public class GameManager : MonoBehaviour
 
         return gObject;
     }
-    public string[] GetSaveNames()
+    public static string[] GetSaveNames()
     {
         return Directory.GetFiles(Application.persistentDataPath, "*.sav");
     }
