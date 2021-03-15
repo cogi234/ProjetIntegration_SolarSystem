@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     private GameManager gameManager;
+    private UIManager uiManager;
     [SerializeField] float mouseSensitivity;
     [SerializeField] float movementSpeed;
     [SerializeField] float reframingFOV;
@@ -12,6 +13,7 @@ public class CameraMovement : MonoBehaviour
     private void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
     }
@@ -28,7 +30,7 @@ public class CameraMovement : MonoBehaviour
         //control mouse and WASD movement
         if(Cursor.lockState == CursorLockMode.Locked)
         {
-            transform.Rotate(Input.GetAxis("Mouse Y") * -mouseSensitivity * Time.deltaTime, Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime, 0, Space.Self);
+            transform.Rotate(Input.GetAxis("Mouse Y") * -mouseSensitivity, Input.GetAxis("Mouse X") * mouseSensitivity, 0, Space.Self);
         }
 
         transform.Translate(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime, Space.Self);
@@ -48,6 +50,13 @@ public class CameraMovement : MonoBehaviour
 
             transform.position = new Vector3(0,MaxDistance*reframingFOV, 0);
             transform.rotation = Quaternion.Euler(new Vector3(90,0,0));
+        }
+
+        //Adjust the camera to focus on the selected object
+        if (Input.GetKey(KeyCode.F))
+        {
+            transform.position = new Vector3(0, uiManager.selectedObject.Radius * reframingFOV, 0);
+            transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         }
     }
 }

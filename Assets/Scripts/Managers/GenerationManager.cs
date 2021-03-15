@@ -7,20 +7,40 @@ public class GenerationManager : MonoBehaviour
 
     private GameManager gameManager;
 
-    [SerializeField] float minRelativeMass = 0.02f;
-    [SerializeField] float maxRelativeMass = 0.1f;
+    [SerializeField] float minRelativeMass = 0.001f;
+    [SerializeField] float maxRelativeMass = 0.01f;
     [SerializeField] float minDensity = 1f;
     [SerializeField] float maxDensity = 6f;
+    [SerializeField] float minOrbitRadiusMultiplier = 500f;
+    [SerializeField] float maxOrbitRadiusMultiplier = 2000f;
 
 
 
-    private void Start()
+    private void Awake()
     {
         gameManager = GetComponent<GameManager>();
         random = new System.Random();
     }
 
-    public void SimpleGeneratePlanet(StellarObject orbitedObject, bool flatPlane, float orbitDistance)
+    public GameObject SimpleGeneratePlanet(StellarObject orbitedObject, bool flatPlane)
+    {
+        //In which direction will the stellar object be positionned, relative to its orbited object
+        Vector3 direction = new Vector3();
+        direction.x = GetRandomFloat(-1, 1);
+        direction.z = GetRandomFloat(-1, 1);
+        if (flatPlane)
+            direction.y = 0;
+        else
+            direction.y = GetRandomFloat(-1, 1);
+
+        //Then we get the position
+        Vector3 position = (direction.normalized * orbitedObject.Radius * GetRandomFloat(minOrbitRadiusMultiplier, maxOrbitRadiusMultiplier)) + orbitedObject.transform.position;
+
+        //we use the implementation 
+        return SimpleGeneratePlanet(orbitedObject, flatPlane, position);
+    }
+
+    public GameObject SimpleGeneratePlanet(StellarObject orbitedObject, bool flatPlane, float orbitDistance)
     {
         //In which direction will the stellar object be positionned, relative to its orbited object
         Vector3 direction = new Vector3();
@@ -35,10 +55,10 @@ public class GenerationManager : MonoBehaviour
         Vector3 position = (direction.normalized * orbitDistance) + orbitedObject.transform.position;
 
         //we use the implementation 
-        SimpleGeneratePlanet(orbitedObject, flatPlane, position);
+        return SimpleGeneratePlanet(orbitedObject, flatPlane, position);
     }
 
-    public void SimpleGeneratePlanet(StellarObject orbitedObject, bool flatPlane, Vector3 position)
+    public GameObject SimpleGeneratePlanet(StellarObject orbitedObject, bool flatPlane, Vector3 position)
     {
         //the direction from the orbited object to the object we will create
         Vector3 direction = position - orbitedObject.transform.position;
@@ -55,7 +75,41 @@ public class GenerationManager : MonoBehaviour
         //Then we need to calculate a speed to have a stable orbit
         float speed = Mathf.Sqrt(gameManager.gravityConstant * orbitedObject.Mass / direction.magnitude);
 
-        gameManager.CreateStellarObject("New Object", GetRandomFloat(minRelativeMass * orbitedObject.Mass, maxRelativeMass * orbitedObject.Mass), GetRandomFloat(minDensity, maxDensity), orbitedObject.Velocity + (orbitDirection * speed), position);
+        return gameManager.CreateStellarObject("New Object", GetRandomFloat(minRelativeMass * orbitedObject.Mass, maxRelativeMass * orbitedObject.Mass), GetRandomFloat(minDensity, maxDensity), orbitedObject.Velocity + (orbitDirection * speed), position);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sunMass"> The mass of the sun </param>
+    /// <param name="sunSize"> The volume of the sun </param>
+    /// <param name="planetNumber"> The number of planets to be generated</param>
+    /// <param name="minMoonNumber"> If you put e negative number, it will count all generated negative numbers as zero, shifting the probability in favor of no moons.</param>
+    /// <param name="maxMoonNumber"></param>
+    public void SimpleGenerateSystem(bool flatPlane, float sunMass, float sunSize, int planetNumber, int minMoonNumber = -3, int maxMoonNumber = 2)
+    {
+        //First, we create the sun
+        StellarObject sun = gameManager.CreateSun("Sun", sunMass, sunMass / sunSize, Vector3.zero, Vector3.zero).GetComponent<StellarObject>();
+
+        //Then, we create all planets
+        StellarObject[] planets = new StellarObject[planetNumber];
+
+        for (int i = 0; i < planetNumber; i++)
+        {
+            planets[i] = SimpleGeneratePlanet(sun, flatPlane).GetComponent<StellarObject>();//We create the planet
+            planets[i].gameObject.name = $"Planet {i + 1}";
+
+            //Then we create the moons for each planet
+            int moonNumber = random.Next(minMoonNumber, maxMoonNumber);
+            if (moonNumber > 0)
+            {
+                for (int j = 0; j < moonNumber; j++)
+                {
+                    GameObject moon = SimpleGeneratePlanet(planets[i], flatPlane);
+                    moon.name = $"Moon {j + 1} of planet {i + 1}";
+                }
+            }
+        }
     }
 
 
