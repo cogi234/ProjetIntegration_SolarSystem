@@ -31,5 +31,8 @@ public class UIStellarObject : MonoBehaviour
         //We make the icon follow its stellar object
         Vector2 viewportPos = Camera.main.WorldToScreenPoint(myObject.transform.position);
         rectTransform.anchoredPosition = viewportPos;
+
+        //We update the name on the display
+        nameDisplay.text = myObject.name;
     }
 }

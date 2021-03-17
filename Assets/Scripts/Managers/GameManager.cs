@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public double absoluteTime = 0;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
+    [SerializeField] private GameObject axisOverlayPrefab;
     [SerializeField] private GameObject stellarObjectPrefab;
     [SerializeField] private GameObject sunObjectPrefab;
 
@@ -107,6 +108,11 @@ public class GameManager : MonoBehaviour
         //We create the UIobject and assign it a stellar object
         UIStellarObject stellarObjectUI = Instantiate(stellarObjectUIPrefab, GameObject.Find("OverlayCanvas").transform).GetComponent<UIStellarObject>();
         stellarObjectUI.myObject = stellarObject;
+
+        //We also do the same thing for the overlay
+        GameObject axisOverlay = Instantiate(axisOverlayPrefab, stellarObject.transform);
+        axisOverlay.GetComponent<UIAxisOverlay>().myObject = stellarObject;
+        axisOverlay.SetActive(false);
     }
 
     public GameObject CreateSun(string name, float mass, float density, Vector3 velocity, Vector3 position)
