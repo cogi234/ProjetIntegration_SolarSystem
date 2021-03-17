@@ -4,5 +4,17 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public StellarObject selectedObject;
+    private StellarObject selectedObject;
+    public StellarObject SelectedObject { 
+        get
+        {
+            return selectedObject;
+        }
+        set
+        {
+            selectedObject = value;
+        }
+    }
+
+
 }

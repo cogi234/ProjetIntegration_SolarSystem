@@ -93,7 +93,7 @@ public class StellarObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>().selectedObject = this;
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>().SelectedObject = this;
     }
 
 

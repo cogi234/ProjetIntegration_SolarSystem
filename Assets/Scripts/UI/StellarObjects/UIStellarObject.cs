@@ -23,7 +23,7 @@ public class UIStellarObject : MonoBehaviour
 
     public void SelectedObject()
     {
-        uiManager.selectedObject = myObject;
+        uiManager.SelectedObject = myObject;
     }
 
     private void Update()

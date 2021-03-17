@@ -21,6 +21,6 @@ public class UICreateMenu : MonoBehaviour
 
     public void GeneratePlanet()
     {
-        generationManager.SimpleGeneratePlanet(uiManager.selectedObject, ProcGenFlatPlane, float.Parse(ProcGenOrbitDistance));
+        generationManager.SimpleGeneratePlanet(uiManager.SelectedObject, ProcGenFlatPlane, float.Parse(ProcGenOrbitDistance));
     }
 }

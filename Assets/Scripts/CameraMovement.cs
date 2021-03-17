@@ -55,7 +55,7 @@ public class CameraMovement : MonoBehaviour
         //Adjust the camera to focus on the selected object
         if (Input.GetKey(KeyCode.F))
         {
-            transform.position = new Vector3(0, uiManager.selectedObject.Radius * reframingFOV, 0);
+            transform.position = new Vector3(0, uiManager.SelectedObject.Radius * reframingFOV, 0);
             transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         }
     }

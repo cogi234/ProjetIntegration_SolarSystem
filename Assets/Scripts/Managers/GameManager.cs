@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         {
             //Centering the system:
             float X, Y, Z;
-            if (uiManager.selectedObject == null)//If there's no selected object, we center on the center of the system
+            if (uiManager.SelectedObject == null)//If there's no selected object, we center on the center of the system
             {
                 //auto adjust camera to show the whole solar system (paired with CameraMovement)
                 float xStellarObjectSum = 0;
@@ -90,9 +90,9 @@ public class GameManager : MonoBehaviour
             }
             else//otherwise, we center on the selected object
             {
-                X = uiManager.selectedObject.transform.position.x;
-                Y = uiManager.selectedObject.transform.position.y;
-                Z = uiManager.selectedObject.transform.position.z;
+                X = uiManager.SelectedObject.transform.position.x;
+                Y = uiManager.SelectedObject.transform.position.y;
+                Z = uiManager.SelectedObject.transform.position.z;
             }
 
             foreach (StellarObject A in stellarObjectList)

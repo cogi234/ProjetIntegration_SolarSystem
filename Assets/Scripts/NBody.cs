@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class N-body : MonoBehaviour
+public class NBody : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,7 @@ public class N-body : MonoBehaviour
     // A(Xn) = G * m * r / abs(r)pow3
     // acc (objet Xn) = ConstGrav * MassObjetStellaire * distanceObjet
     //                    / abs(distanceObjetStellaire)pow3
-    float acceleration = 
+    float acceleration;
 
     // Vn+1 = Vn + h * An
     // h = delta temps

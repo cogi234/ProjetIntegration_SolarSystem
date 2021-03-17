@@ -17,9 +17,9 @@ public class UIStellarObjectDisplay : MonoBehaviour
 
     private void Update()//We'll have to put the text once we've finished teh stellarobject script
     {
-        if (uiManager.selectedObject != null)
+        if (uiManager.SelectedObject != null)
         {
-            infoText.text = $"<b>{uiManager.selectedObject.name}</b>\n Mass: {uiManager.selectedObject.Mass}\n Density: {uiManager.selectedObject.Density}\n Volume: {uiManager.selectedObject.Volume}\n Radius: {uiManager.selectedObject.Radius}\n Speed: {uiManager.selectedObject.Velocity.magnitude}";
+            infoText.text = $"<b>{uiManager.SelectedObject.name}</b>\n Mass: {uiManager.SelectedObject.Mass}\n Density: {uiManager.SelectedObject.Density}\n Volume: {uiManager.SelectedObject.Volume}\n Radius: {uiManager.SelectedObject.Radius}\n Speed: {uiManager.SelectedObject.Velocity.magnitude}";
         }
         else
         {
