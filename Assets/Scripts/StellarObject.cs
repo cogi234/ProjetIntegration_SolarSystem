@@ -9,6 +9,8 @@ public class StellarObject : MonoBehaviour
     [SerializeField]private float volume = 1; // en m ou km
     [SerializeField]private float mass = 1;
     [SerializeField]private float density = 1;
+    private Vector3 acceleration = new Vector3();
+    
    
     //Ajuste automatiquement les valeurs des variables lors du changement d'une des variables
     public float Density 
@@ -47,6 +49,11 @@ public class StellarObject : MonoBehaviour
         get => velocity; 
         set => velocity = value; 
     }
+    public Vector3 Acceleration
+    {
+        get => acceleration;
+        set => acceleration = value;
+    }
 
     void Start()
     {
@@ -66,6 +73,7 @@ public class StellarObject : MonoBehaviour
     //prend chaque objet stellaire environnant (masse et distance) et calcule la force appliquée sur l'objet principal
     public void ApplyGravity(float time)
     {
+        Vector3 totalForce = new Vector3();
         foreach (StellarObject X in gameManager.stellarObjectList)
         {
             if (X != this)
@@ -74,8 +82,10 @@ public class StellarObject : MonoBehaviour
                     / Mathf.Pow(Vector3.Distance(X.transform.position, transform.position), 2);
                 Vector3 direction = (X.transform.position - transform.position).normalized * GravityForce;
                 ApplyForce(direction, time);
+                totalForce += direction;
             }
-        }  
+        }
+        acceleration = totalForce / mass ;
     }
     
     //cree un vecteur force a partir dun un objet stellaire
