@@ -28,7 +28,15 @@ public class UICreateMenu : MonoBehaviour
     public void CreatePlanet()
     {
         //It creates a planet and then selects it.
-        StellarObject s = gameManager.CreateStellarObject("New Planet", 1, 1, Vector3.zero, Vector3.zero).GetComponent<StellarObject>();
+        StellarObject s = gameManager.CreateStellarObject("New Planet", 1, 1, Vector3.one, Vector3.one).GetComponent<StellarObject>();
         uiManager.SelectedObject = s;
+        gameManager.paused = true;
+    }
+    public void CreateSun()
+    {
+        //It creates a planet and then selects it.
+        StellarObject s = gameManager.CreateSun("New Planet", 1, 1, Vector3.one, Vector3.one).GetComponent<StellarObject>();
+        uiManager.SelectedObject = s;
+        gameManager.paused = true;
     }
 }

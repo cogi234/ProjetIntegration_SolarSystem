@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public List<StellarObject> stellarObjectList;
     public float gravityConstant;
     public float timeFactor = 1 ;
+    public bool paused = false;
     public double absoluteTime = 0;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
@@ -55,50 +56,53 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float realDeltaTime = Time.deltaTime * timeFactor;
-        absoluteTime += realDeltaTime;
-
-        foreach (StellarObject A in stellarObjectList)
+        if (!paused)//We only simulate if the game isn't paused
         {
-            A.ApplyGravity(realDeltaTime);
-        }
+            float realDeltaTime = Time.deltaTime * timeFactor;
+            absoluteTime += realDeltaTime;
 
-        foreach (StellarObject A in stellarObjectList)
-        {
-            A.ApplyVelocity(realDeltaTime);
-        }
-
-        if (stellarObjectList.Count > 0)
-        {
-            //Centering the system:
-            float X, Y, Z;
-            if (uiManager.SelectedObject == null)//If there's no selected object, we center on the center of the system
+            foreach (StellarObject A in stellarObjectList)
             {
-                //auto adjust camera to show the whole solar system (paired with CameraMovement)
-                float xStellarObjectSum = 0;
-                float yStellarObjectSum = 0;
-                float zStellarObjectSum = 0;
-
-                foreach (StellarObject A in stellarObjectList)
-                {
-                    xStellarObjectSum += A.transform.position.x;
-                    yStellarObjectSum += A.transform.position.y;
-                    zStellarObjectSum += A.transform.position.z;
-                }
-                X = xStellarObjectSum / stellarObjectList.Count;
-                Y = yStellarObjectSum / stellarObjectList.Count;
-                Z = zStellarObjectSum / stellarObjectList.Count;
-            }
-            else//otherwise, we center on the selected object
-            {
-                X = uiManager.SelectedObject.transform.position.x;
-                Y = uiManager.SelectedObject.transform.position.y;
-                Z = uiManager.SelectedObject.transform.position.z;
+                A.ApplyGravity(realDeltaTime);
             }
 
             foreach (StellarObject A in stellarObjectList)
             {
-                A.transform.Translate(-X, -Y, -Z, Space.World);
+                A.ApplyVelocity(realDeltaTime);
+            }
+
+            if (stellarObjectList.Count > 0)
+            {
+                //Centering the system:
+                float X, Y, Z;
+                if (uiManager.SelectedObject == null)//If there's no selected object, we center on the center of the system
+                {
+                    //auto adjust camera to show the whole solar system (paired with CameraMovement)
+                    float xStellarObjectSum = 0;
+                    float yStellarObjectSum = 0;
+                    float zStellarObjectSum = 0;
+
+                    foreach (StellarObject A in stellarObjectList)
+                    {
+                        xStellarObjectSum += A.transform.position.x;
+                        yStellarObjectSum += A.transform.position.y;
+                        zStellarObjectSum += A.transform.position.z;
+                    }
+                    X = xStellarObjectSum / stellarObjectList.Count;
+                    Y = yStellarObjectSum / stellarObjectList.Count;
+                    Z = zStellarObjectSum / stellarObjectList.Count;
+                }
+                else//otherwise, we center on the selected object
+                {
+                    X = uiManager.SelectedObject.transform.position.x;
+                    Y = uiManager.SelectedObject.transform.position.y;
+                    Z = uiManager.SelectedObject.transform.position.z;
+                }
+
+                foreach (StellarObject A in stellarObjectList)
+                {
+                    A.transform.Translate(-X, -Y, -Z, Space.World);
+                }
             }
         }
     }

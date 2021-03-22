@@ -15,15 +15,9 @@ public class UITimeControls : MonoBehaviour
     }
 
     //Pause controls:
-    float previousTimeScale = 0f;
-    bool paused = false;
-
     public void TogglePause()
     {
-        paused = !paused;
-        float temp = previousTimeScale;
-        previousTimeScale = gameManager.timeFactor;
-        gameManager.timeFactor = temp;
+        gameManager.paused = !gameManager.paused;
     }
 
     private void Update()
@@ -40,14 +34,7 @@ public class UITimeControls : MonoBehaviour
 
     public void ApplyTimeScale()
     {
-        if (paused)
-        {
-            previousTimeScale = float.Parse(TimeScale);
-        }
-        else
-        {
-            gameManager.timeFactor = float.Parse(TimeScale);
-        }
+        gameManager.timeFactor = float.Parse(TimeScale);
     }
 
 }
