@@ -18,13 +18,17 @@ public class UIStellarObjectDisplay : MonoBehaviour
     [SerializeField] InputField velocityYInput;
     [SerializeField] InputField velocityZInput;
 
+    [SerializeField] InputField positionXInput;
+    [SerializeField] InputField positionYInput;
+    [SerializeField] InputField positionZInput;
+
 
     private void Start()
     {
         uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();//We find the uiManager
     }
 
-    private void Update()//We'll have to put the text once we've finished teh stellarobject script
+    private void Update()//We'll have to put the text once we've finished the stellarobject script
     {
         if (uiManager.SelectedObject != null)
         {
@@ -43,6 +47,12 @@ public class UIStellarObjectDisplay : MonoBehaviour
                 velocityXInput.text = uiManager.SelectedObject.Velocity.normalized.x.ToString();
                 velocityYInput.text = uiManager.SelectedObject.Velocity.normalized.y.ToString();
                 velocityZInput.text = uiManager.SelectedObject.Velocity.normalized.z.ToString();
+            }
+            if(!(positionXInput.isFocused || positionYInput.isFocused || positionZInput.isFocused))
+            {
+                positionXInput.text = uiManager.SelectedObject.transform.position.x.ToString();
+                positionYInput.text = uiManager.SelectedObject.transform.position.y.ToString();
+                positionZInput.text = uiManager.SelectedObject.transform.position.z.ToString();
             }
         }
         else
@@ -82,6 +92,9 @@ public class UIStellarObjectDisplay : MonoBehaviour
         else
             uiManager.SelectedObject.Velocity = uiManager.SelectedObject.Velocity.magnitude * new Vector3(float.Parse(velocityXInput.text), float.Parse(velocityYInput.text), float.Parse(velocityZInput.text)).normalized;
     }
-
+    public void UpdatePosition()
+    {
+        uiManager.SelectedObject.transform.position = new Vector3(float.Parse(positionXInput.text), float.Parse(positionYInput.text), float.Parse(positionZInput.text));
+    }
 
 }
