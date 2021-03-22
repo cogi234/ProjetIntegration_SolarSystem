@@ -23,4 +23,12 @@ public class UICreateMenu : MonoBehaviour
     {
         generationManager.SimpleGeneratePlanet(uiManager.SelectedObject, ProcGenFlatPlane, float.Parse(ProcGenOrbitDistance));
     }
+
+    //Plain Creation:
+    public void CreatePlanet()
+    {
+        //It creates a planet and then selects it.
+        StellarObject s = gameManager.CreateStellarObject("New Planet", 1, 1, Vector3.zero, Vector3.zero).GetComponent<StellarObject>();
+        uiManager.SelectedObject = s;
+    }
 }

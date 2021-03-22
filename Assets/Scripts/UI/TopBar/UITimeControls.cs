@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UITimeControls : MonoBehaviour
 {
     private GameManager gameManager;
+    [SerializeField] UIImageFlip pauseButtonGraphics;
 
     private void Start()
     {
@@ -24,6 +26,14 @@ public class UITimeControls : MonoBehaviour
         gameManager.timeFactor = temp;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TogglePause();
+            pauseButtonGraphics.SwitchState();
+        }
+    }
 
     //Time Scale:
     public string TimeScale { get; set; }
