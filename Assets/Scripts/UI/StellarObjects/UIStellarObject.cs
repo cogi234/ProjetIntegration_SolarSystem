@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 
 public class UIStellarObject : MonoBehaviour
@@ -11,12 +10,16 @@ public class UIStellarObject : MonoBehaviour
     UIManager uiManager;
     RectTransform rectTransform;
     Text nameDisplay;
+    Camera mainCamera;
+
+    bool visible = true;
 
     private void Start()
     {
         nameDisplay = GetComponentInChildren<Text>();
         rectTransform = GetComponent<RectTransform>();
         uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();//We find the uiManager
+        mainCamera = Camera.main;
 
         nameDisplay.text = myObject.name;
     }
@@ -34,5 +37,26 @@ public class UIStellarObject : MonoBehaviour
 
         //We update the name on the display
         nameDisplay.text = myObject.name;
+
+        //We only activate our graphics if we're visible by the main camera
+        Vector3 screenPoint = Camera.main.WorldToViewportPoint(myObject.transform.position);
+        if (screenPoint.x > -0.1f && screenPoint.x < 1.1f && screenPoint.y > -0.1f && screenPoint.y < 1.1f)
+        {
+            if (!visible)
+            {
+                visible = true;
+                GetComponent<Image>().enabled = true;
+                transform.GetChild(0).gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (visible)
+            {
+                visible = false;
+                GetComponent<Image>().enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
     }
 }

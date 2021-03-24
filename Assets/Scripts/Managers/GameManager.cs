@@ -117,6 +117,10 @@ public class GameManager : MonoBehaviour
         GameObject axisOverlay = Instantiate(axisOverlayPrefab, stellarObject.transform);
         axisOverlay.GetComponent<UIAxisOverlay>().myObject = stellarObject;
         axisOverlay.SetActive(false);
+
+        //If this is the first stellarobject, we select it
+        if (uiManager.SelectedObject == null)
+            uiManager.SelectedObject = stellarObject;
     }
 
     public GameObject CreateSun(string name, float mass, float density, Vector3 velocity, Vector3 position)

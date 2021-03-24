@@ -20,6 +20,4 @@ public class UIManager : MonoBehaviour
             selectedObject.transform.GetChild(0).gameObject.SetActive(true);//We activate the axis overlay of the next selected object
         }
     }
-
-
 }
