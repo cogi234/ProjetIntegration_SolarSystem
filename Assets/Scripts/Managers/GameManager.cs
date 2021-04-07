@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
     [SerializeField] private GameObject axisOverlayPrefab;
+    [SerializeField] private GameObject predictionOverlayPrefab;
     [SerializeField] private GameObject stellarObjectPrefab;
     [SerializeField] private GameObject sunObjectPrefab;
 
@@ -113,10 +114,14 @@ public class GameManager : MonoBehaviour
         UIStellarObject stellarObjectUI = Instantiate(stellarObjectUIPrefab, GameObject.Find("OverlayCanvas").transform).GetComponent<UIStellarObject>();
         stellarObjectUI.myObject = stellarObject;
 
-        //We also do the same thing for the overlay
+        //We also do the same thing for the axis overlay
         GameObject axisOverlay = Instantiate(axisOverlayPrefab, stellarObject.transform);
         axisOverlay.GetComponent<UIAxisOverlay>().myObject = stellarObject;
         axisOverlay.SetActive(false);
+
+        //We also do the same thing for the prediction overlay
+        GameObject predictionOverlay = Instantiate(predictionOverlayPrefab, stellarObject.transform);
+        predictionOverlay.SetActive(false);
 
         //If this is the first stellarobject, we select it
         if (uiManager.SelectedObject == null)

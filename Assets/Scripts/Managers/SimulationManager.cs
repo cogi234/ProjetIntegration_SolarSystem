@@ -12,19 +12,19 @@ public class SimulationManager : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        gameManager = GetComponent<GameManager>();
     }
 
-    void Simulate(float timeStep, int stepCount)
+    public void Simulate(float timeStep, int stepCount)
     {
-        positionHistory = new Vector3[stepCount, virtualObjectList.Count];
-        gravityConstant = gameManager.gravityConstant;
-        simulatedTime = gameManager.absoluteTime;
         virtualObjectList = new List<VirtualObject>();
         foreach (StellarObject X in gameManager.stellarObjectList)
         {
             virtualObjectList.Add(new VirtualObject(X));
         }
+        positionHistory = new Vector3[stepCount, virtualObjectList.Count];
+        gravityConstant = gameManager.gravityConstant;
+        simulatedTime = gameManager.absoluteTime;
 
         for (int i = 0; i < stepCount; i++)
         {
@@ -49,6 +49,21 @@ public class SimulationManager : MonoBehaviour
             A.ApplyVelocity(timeStep);
 
         }
+    }
+
+
+    //Cette fonction est prise d'une question sur stackoverflow:       https://stackoverflow.com/questions/16636019/how-to-get-1d-column-array-and-1d-row-array-from-2d-array-c-net
+    public Vector3[] GetPositionHistoryOfObject(int index)
+    {
+        int historyLength = positionHistory.GetLength(0);
+        Vector3[] history = new Vector3[historyLength];
+
+        for (int i = 0; i < historyLength; i++)
+        {
+            history[i] = positionHistory[i, index];
+        }
+
+        return history;
     }
 }
 public class VirtualObject

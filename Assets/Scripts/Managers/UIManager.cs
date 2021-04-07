@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] GameObject axisOverlayPrefab;
-
     private StellarObject selectedObject;
     public StellarObject SelectedObject { 
         get
@@ -20,4 +18,62 @@ public class UIManager : MonoBehaviour
             selectedObject.transform.GetChild(0).gameObject.SetActive(true);//We activate the axis overlay of the next selected object
         }
     }
+
+
+
+    GameManager gameManager;
+    SimulationManager simulationManager;
+    void Start()
+    {
+        gameManager = GetComponent<GameManager>();
+        simulationManager = GetComponent<SimulationManager>();
+    }
+
+
+    //Prediction stuff:
+    public string TimeStep { get; set; } = "0.5";
+    public string StepCount { get; set; } = "50";
+    public bool AllPlanets { get; set; } = true;
+    public double predictionTime;//The time at which we predicted the current trajectory
+
+    public void Predict()
+    {
+        Debug.Log("predict");
+
+        predictionTime = gameManager.absoluteTime;//We record the time at which we predicted the future
+
+        simulationManager.Simulate(float.Parse(TimeStep), int.Parse(StepCount));//We simulate the future
+
+        if (AllPlanets)
+        {
+            //We activate every prediction overlay and then set their position lists
+            foreach (StellarObject A in gameManager.stellarObjectList)
+            {
+                A.transform.GetChild(1).gameObject.SetActive(true);
+
+                A.transform.GetChild(1).GetComponent<UIPredictionOverlay>().positions = simulationManager.GetPositionHistoryOfObject(gameManager.stellarObjectList.IndexOf(A));
+            }
+        }
+        else
+        {
+            //We deactivate every prediction overlay, except the selected object, before setting its position list
+            foreach (StellarObject A in gameManager.stellarObjectList)
+            {
+                A.transform.GetChild(1).gameObject.SetActive(false);
+            }
+            selectedObject.transform.GetChild(1).gameObject.SetActive(true);
+
+            selectedObject.transform.GetChild(1).GetComponent<UIPredictionOverlay>().positions = simulationManager.GetPositionHistoryOfObject(gameManager.stellarObjectList.IndexOf(selectedObject));
+        }
+    }
+
+    public void ClearPredictions()
+    {
+        //We deactivate every prediction overlay
+        foreach (StellarObject A in gameManager.stellarObjectList)
+        {
+            A.transform.GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
 }
