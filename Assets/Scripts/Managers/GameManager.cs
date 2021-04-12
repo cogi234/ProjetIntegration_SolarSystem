@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -129,6 +130,8 @@ public class GameManager : MonoBehaviour
 
     private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
     {
+        Debug.Log($"Collision between {bigObject.name} and {smallObject.name}");
+
         //TODO
     }
     

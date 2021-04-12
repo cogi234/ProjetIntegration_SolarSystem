@@ -50,8 +50,6 @@ public class UIManager : MonoBehaviour
 
     public void Predict()
     {
-        Debug.Log("predict");
-
         predictionTime = gameManager.absoluteTime;//We record the time at which we predicted the future
 
         simulationManager.Simulate(float.Parse(TimeStep), int.Parse(StepCount));//We simulate the future
@@ -78,14 +76,4 @@ public class UIManager : MonoBehaviour
             selectedObject.transform.GetChild(1).GetComponent<UIPredictionOverlay>().positions = simulationManager.GetPositionHistoryOfObject(gameManager.stellarObjectList.IndexOf(selectedObject));
         }
     }
-
-    public void ClearPredictions()
-    {
-        //We deactivate every prediction overlay
-        foreach (StellarObject A in gameManager.stellarObjectList)
-        {
-            A.transform.GetChild(1).gameObject.SetActive(false);
-        }
-    }
-
 }
