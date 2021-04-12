@@ -12,7 +12,7 @@ public class UIStellarObject : MonoBehaviour
     Text nameDisplay;
     Camera mainCamera;
 
-    bool visible = true;
+    [SerializeField]bool visible = true;
 
     private void Start()
     {
@@ -34,13 +34,14 @@ public class UIStellarObject : MonoBehaviour
         //We make the icon follow its stellar object
         Vector2 viewportPos = Camera.main.WorldToScreenPoint(myObject.transform.position);
         rectTransform.anchoredPosition = viewportPos;
+        
 
         //We update the name on the display
         nameDisplay.text = myObject.name;
 
         //We only activate our graphics if we're visible by the main camera
         Vector3 screenPoint = Camera.main.WorldToViewportPoint(myObject.transform.position);
-        if (screenPoint.x > -0.1f && screenPoint.x < 1.1f && screenPoint.y > -0.1f && screenPoint.y < 1.1f)
+        if (screenPoint.x > -0.1f && screenPoint.x < 1.1f && screenPoint.y > -0.1f && screenPoint.y < 1.1f && screenPoint.z > 0)
         {
             if (!visible)
             {

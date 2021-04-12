@@ -28,7 +28,7 @@ public class UIStellarObjectDisplay : MonoBehaviour
         uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();//We find the uiManager
     }
 
-    private void Update()//We'll have to put the text once we've finished the stellarobject script
+    private void Update()
     {
         if (uiManager.SelectedObject != null)
         {
