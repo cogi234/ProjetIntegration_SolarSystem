@@ -10,6 +10,8 @@ public class SimulationManager : MonoBehaviour
     float gravityConstant;
     Vector3[,] positionHistory;
 
+    bool centering;//do we center the positions?
+
     void Start()
     {
         gameManager = GetComponent<GameManager>();
@@ -25,6 +27,7 @@ public class SimulationManager : MonoBehaviour
         positionHistory = new Vector3[stepCount, virtualObjectList.Count];
         gravityConstant = gameManager.gravityConstant;
         simulatedTime = gameManager.absoluteTime;
+        centering = gameManager.centering;
 
         for (int i = 0; i < stepCount; i++)
         {
@@ -48,6 +51,32 @@ public class SimulationManager : MonoBehaviour
         {
             A.ApplyVelocity(timeStep);
 
+        }
+
+        //Centering the system in the same way as the gamemanager, to have a prediction that's synchronized
+        if (virtualObjectList.Count > 0 && centering)
+        {
+            //Centering the system:
+            float X, Y, Z;
+            //auto adjust camera to show the whole solar system (paired with CameraMovement)
+            float xStellarObjectSum = 0;
+            float yStellarObjectSum = 0;
+            float zStellarObjectSum = 0;
+
+            foreach (VirtualObject A in virtualObjectList)
+            {
+                xStellarObjectSum += A.position.x;
+                yStellarObjectSum += A.position.y;
+                zStellarObjectSum += A.position.z;
+            }
+            X = xStellarObjectSum / virtualObjectList.Count;
+            Y = yStellarObjectSum / virtualObjectList.Count;
+            Z = zStellarObjectSum / virtualObjectList.Count;
+
+            foreach (VirtualObject A in virtualObjectList)
+            {
+                A.position -= new Vector3(X, Y, Z);
+            }
         }
     }
 

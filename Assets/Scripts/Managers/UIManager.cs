@@ -30,6 +30,18 @@ public class UIManager : MonoBehaviour
     }
 
 
+    public bool Centering {
+        get
+        {
+            return gameManager.centering;
+        }
+        set
+        {
+            gameManager.centering = value;
+        }
+    }
+
+
     //Prediction stuff:
     public string TimeStep { get; set; } = "0.5";
     public string StepCount { get; set; } = "50";
