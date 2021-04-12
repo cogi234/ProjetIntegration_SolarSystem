@@ -101,12 +101,6 @@ public class StellarObject : MonoBehaviour
         transform.position += Velocity * time;
     }
 
-    //TO COMPLETE
-    public void HandleCollision(StellarObject other)
-    {
-        Debug.Log($"Collision between {name} and {other.name}");
-    }
-
     private void OnMouseDown()
     {
         GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>().SelectedObject = this;

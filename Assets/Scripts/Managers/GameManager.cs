@@ -125,8 +125,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleCollision(StellarObject A, StellarObject B)
     {
-        A.HandleCollision(B);
-        B.HandleCollision(A);
+        //TODO
     }
     
     public void CreateStellarObjectUI(StellarObject stellarObject)
