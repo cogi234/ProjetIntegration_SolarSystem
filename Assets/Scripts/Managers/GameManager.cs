@@ -116,14 +116,18 @@ public class GameManager : MonoBehaviour
                     if (Physics.Raycast(stellarObjectList[i].transform.position, stellarObjectList[j].transform.position - stellarObjectList[i].transform.position, hitInfo: out hit, stellarObjectList[i].Radius))
                     {
                         //If they are colliding, we handle the collision
-                        HandleCollision(stellarObjectList[i], stellarObjectList[j]);
+
+                        if (stellarObjectList[i].Mass > stellarObjectList[j].Mass)
+                            HandleCollision(stellarObjectList[i], stellarObjectList[j]);
+                        else
+                            HandleCollision(stellarObjectList[j], stellarObjectList[i]);
                     }
                 }
             }
         }
     }
 
-    private void HandleCollision(StellarObject A, StellarObject B)
+    private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
     {
         //TODO
     }
