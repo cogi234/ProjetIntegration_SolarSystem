@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     SceneStart sceneStart;
 
     public List<StellarObject> stellarObjectList;
+    public List<int> stellarObjectsIndexToRemove;
     public float gravityConstant;
     public float timeFactor = 1 ;
     public bool paused = false;
@@ -108,6 +109,13 @@ public class GameManager : MonoBehaviour
                     A.transform.Translate(-X, -Y, -Z, Space.World);
                 }
             }
+
+            //We destroy every queued object
+            foreach (int i in stellarObjectsIndexToRemove)
+            {
+                DestroyStellarObject(i);
+            }
+            stellarObjectsIndexToRemove = new List<int>();
         }
     }
 
@@ -154,8 +162,8 @@ public class GameManager : MonoBehaviour
     }
     private void FuseCollider(StellarObject bigObject, StellarObject smallObject) 
     {
-        bigObject.Mass += smallObject.Mass;
-        stellarObjectList.Remove(smallObject);
+        stellarObjectsIndexToRemove.Add(stellarObjectList.IndexOf(smallObject));//We delete the small object
+        bigObject.Mass += smallObject.Mass;//we add the mass of the small object to the big one
     }
     private void BounceCollider(StellarObject bigObject, StellarObject smallObject) 
     { 
@@ -282,16 +290,10 @@ public class GameManager : MonoBehaviour
 
     private void ResetSolarSystem()//This is a function to reset the solar system to empty.
     {
-        for (int i = GameObject.Find("OverlayCanvas").transform.childCount - 1; i >= 0; i--)//This deletes all overlays associated with stellar objects
+        for (int i = 0; i < stellarObjectList.Count; i++)
         {
-            Destroy(GameObject.Find("OverlayCanvas").transform.GetChild(i).gameObject);
+            stellarObjectsIndexToRemove.Add(i);
         }
-
-        for (int i = stellarObjectList.Count - 1; i >= 0; i--)
-        {
-            Destroy(stellarObjectList[i].gameObject);
-        }
-        stellarObjectList = new List<StellarObject>();
     }
 
     private void DestroyStellarObject(int index)
