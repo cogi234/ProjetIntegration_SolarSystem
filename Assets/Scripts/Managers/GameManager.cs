@@ -53,6 +53,10 @@ public class GameManager : MonoBehaviour
                 ResetSolarSystem();
                 generationManager.SimpleGenerateSystem(PlayerPrefs.GetInt("flatPlane") == 1, PlayerPrefs.GetFloat("sunMass"), PlayerPrefs.GetFloat("sunSize"), PlayerPrefs.GetInt("planetNumber"), PlayerPrefs.GetInt("minMoonNumber"), PlayerPrefs.GetInt("maxMoonNumber"));
                 break;
+            case SceneStart.FullyRandom:
+                ResetSolarSystem();
+                generationManager.GenerateFullyRandom(PlayerPrefs.GetInt("bodyNumber"));
+                break;
             default:
                 break;
         }
