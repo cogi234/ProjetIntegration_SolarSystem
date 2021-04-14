@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -19,9 +20,11 @@ public class GameManager : MonoBehaviour
     public float timeFactor = 1 ;
     public bool paused = false;
     public double absoluteTime = 0;
+    public bool centering = false;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
     [SerializeField] private GameObject axisOverlayPrefab;
+    [SerializeField] private GameObject predictionOverlayPrefab;
     [SerializeField] private GameObject stellarObjectPrefab;
     [SerializeField] private GameObject sunObjectPrefab;
 
@@ -71,33 +74,26 @@ public class GameManager : MonoBehaviour
                 A.ApplyVelocity(realDeltaTime);
             }
 
-            if (stellarObjectList.Count > 0)
+            DetectCollisions();
+
+            if (stellarObjectList.Count > 0 && centering)
             {
                 //Centering the system:
                 float X, Y, Z;
-                if (uiManager.SelectedObject == null)//If there's no selected object, we center on the center of the system
-                {
-                    //auto adjust camera to show the whole solar system (paired with CameraMovement)
-                    float xStellarObjectSum = 0;
-                    float yStellarObjectSum = 0;
-                    float zStellarObjectSum = 0;
+                //auto adjust camera to show the whole solar system (paired with CameraMovement)
+                float xStellarObjectSum = 0;
+                float yStellarObjectSum = 0;
+                float zStellarObjectSum = 0;
 
-                    foreach (StellarObject A in stellarObjectList)
-                    {
-                        xStellarObjectSum += A.transform.position.x;
-                        yStellarObjectSum += A.transform.position.y;
-                        zStellarObjectSum += A.transform.position.z;
-                    }
-                    X = xStellarObjectSum / stellarObjectList.Count;
-                    Y = yStellarObjectSum / stellarObjectList.Count;
-                    Z = zStellarObjectSum / stellarObjectList.Count;
-                }
-                else//otherwise, we center on the selected object
+                foreach (StellarObject A in stellarObjectList)
                 {
-                    X = uiManager.SelectedObject.transform.position.x;
-                    Y = uiManager.SelectedObject.transform.position.y;
-                    Z = uiManager.SelectedObject.transform.position.z;
+                    xStellarObjectSum += A.transform.position.x;
+                    yStellarObjectSum += A.transform.position.y;
+                    zStellarObjectSum += A.transform.position.z;
                 }
+                X = xStellarObjectSum / stellarObjectList.Count;
+                Y = yStellarObjectSum / stellarObjectList.Count;
+                Z = zStellarObjectSum / stellarObjectList.Count;
 
                 foreach (StellarObject A in stellarObjectList)
                 {
@@ -106,6 +102,38 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    private void DetectCollisions()
+    {
+        int count = stellarObjectList.Count;
+        if (count > 1)//we only do it if we have enough objects for collisions to be possible
+        {
+            for (int i = 0; i < count - 1; i++)//We loop through every object except the last one
+            {
+                for (int j = i+1; j < count; j++)//We loop through every object after this one
+                {
+                    //We raycast with a max distance of our radius, to see if objects i and j are colliding
+                    RaycastHit hit;
+                    if (Physics.Raycast(stellarObjectList[i].transform.position, stellarObjectList[j].transform.position - stellarObjectList[i].transform.position, hitInfo: out hit, stellarObjectList[i].Radius))
+                    {
+                        //If they are colliding, we handle the collision
+
+                        if (stellarObjectList[i].Mass > stellarObjectList[j].Mass)
+                            HandleCollision(stellarObjectList[i], stellarObjectList[j]);
+                        else
+                            HandleCollision(stellarObjectList[j], stellarObjectList[i]);
+                    }
+                }
+            }
+        }
+    }
+
+    private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
+    {
+        Debug.Log($"Collision between {bigObject.name} and {smallObject.name}");
+
+        //TODO
+    }
     
     public void CreateStellarObjectUI(StellarObject stellarObject)
     {
@@ -113,10 +141,18 @@ public class GameManager : MonoBehaviour
         UIStellarObject stellarObjectUI = Instantiate(stellarObjectUIPrefab, GameObject.Find("OverlayCanvas").transform).GetComponent<UIStellarObject>();
         stellarObjectUI.myObject = stellarObject;
 
-        //We also do the same thing for the overlay
+        //We also do the same thing for the axis overlay
         GameObject axisOverlay = Instantiate(axisOverlayPrefab, stellarObject.transform);
         axisOverlay.GetComponent<UIAxisOverlay>().myObject = stellarObject;
         axisOverlay.SetActive(false);
+
+        //We also do the same thing for the prediction overlay
+        GameObject predictionOverlay = Instantiate(predictionOverlayPrefab, stellarObject.transform);
+        predictionOverlay.SetActive(false);
+
+        //If this is the first stellarobject, we select it
+        if (uiManager.SelectedObject == null)
+            uiManager.SelectedObject = stellarObject;
     }
 
     public GameObject CreateSun(string name, float mass, float density, Vector3 velocity, Vector3 position)
@@ -193,7 +229,6 @@ public class GameManager : MonoBehaviour
             //If the name starts with Sun, we create a sun, otherwise it is a normal stellar object like a planet or a moon.
             if (name.StartsWith("Sun"))
             {
-
                 CreateSun(name, mass, density, velocity, position);
             } 
             else

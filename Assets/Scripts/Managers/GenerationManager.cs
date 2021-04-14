@@ -64,7 +64,6 @@ public class GenerationManager : MonoBehaviour
         Vector3 direction = position - orbitedObject.transform.position;
         //another direction for the cross product
         Vector3 perpendicular = new Vector3(0, 1, 0);
-
         if (!flatPlane)
             perpendicular = new Vector3(GetRandomFloat(-1, 1), GetRandomFloat(-1, 1), GetRandomFloat(-1, 1));
 
@@ -78,9 +77,7 @@ public class GenerationManager : MonoBehaviour
         return gameManager.CreateStellarObject("New Object", GetRandomFloat(minRelativeMass * orbitedObject.Mass, maxRelativeMass * orbitedObject.Mass), GetRandomFloat(minDensity, maxDensity), orbitedObject.Velocity + (orbitDirection * speed), position);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
+
     /// <param name="sunMass"> The mass of the sun </param>
     /// <param name="sunSize"> The volume of the sun </param>
     /// <param name="planetNumber"> The number of planets to be generated</param>

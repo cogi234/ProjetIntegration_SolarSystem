@@ -17,9 +17,9 @@ public class UIAxisOverlay : MonoBehaviour
 
     private void Update()
     {
-        xLine.SetPosition(1, new Vector3(myObject.Radius * 1.5f, 0, 0));
-        yLine.SetPosition(1, new Vector3(0, myObject.Radius * 1.5f, 0));
-        zLine.SetPosition(1, new Vector3(0, 0, myObject.Radius * 1.5f));
-        velocityLine.SetPosition(1, myObject.Velocity.normalized * myObject.Radius * 1.5f);
+        xLine.SetPosition(1, new Vector3(1.5f, 0, 0));
+        yLine.SetPosition(1, new Vector3(0, 1.5f, 0));
+        zLine.SetPosition(1, new Vector3(0, 0, 1.5f));
+        velocityLine.SetPosition(1, myObject.Velocity.normalized * 1.5f);
     }
 }
