@@ -144,23 +144,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public enum CollisionMode { Rigid, Elastic, None}
+    public enum CollisionMode { Fusion, Bounce, None}
     private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
     {
         CollisionMode c = CollisionMode.None;
 
         switch (c)
         {
-            case CollisionMode.Rigid:
-                
+            case CollisionMode.Fusion:
+                FusionCollider(bigObject, smallObject);
                 break;
-            case CollisionMode.Elastic:
+            case CollisionMode.Bounce:
+                BounceCollider(bigObject, smallObject);
                 break;
             case CollisionMode.None:
                 break;
         }
     }
-    private void FuseCollider(StellarObject bigObject, StellarObject smallObject) 
+    private void FusionCollider(StellarObject bigObject, StellarObject smallObject) 
     {
         stellarObjectsIndexToRemove.Add(stellarObjectList.IndexOf(smallObject));//We delete the small object
         bigObject.Mass += smallObject.Mass;//we add the mass of the small object to the big one
