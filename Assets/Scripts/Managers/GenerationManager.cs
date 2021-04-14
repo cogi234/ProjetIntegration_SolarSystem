@@ -109,6 +109,21 @@ public class GenerationManager : MonoBehaviour
         }
     }
 
+    [SerializeField] float minMass = 1;
+    [SerializeField] float maxMass = 10;
+    [SerializeField] float maxRadius = 100;
+    [SerializeField] float maxSpeed = 2;
+    public void GenerateFullyRandom(int bodyNumber)
+    {
+        for (int i = 0; i < bodyNumber; i++)
+        {
+            float mass = GetRandomFloat(minMass, maxMass);
+            Vector3 position = new Vector3(GetRandomFloat(-1, 1), GetRandomFloat(-1, 1), GetRandomFloat(-1, 1)) * GetRandomFloat(0, maxRadius);
+            Vector3 velocity = new Vector3(GetRandomFloat(-1, 1), GetRandomFloat(-1, 1), GetRandomFloat(-1, 1)) * GetRandomFloat(0, maxSpeed);
+            float density = GetRandomFloat(minDensity, maxDensity);
+            gameManager.CreateStellarObject($"Object {i + 1}", mass, density, velocity, position);
+        }
+    }
 
     float GetRandomFloat(float min, float max)
     {

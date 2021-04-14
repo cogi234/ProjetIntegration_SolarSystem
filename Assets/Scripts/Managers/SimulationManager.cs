@@ -6,7 +6,7 @@ public class SimulationManager : MonoBehaviour
 {
     GameManager gameManager;
     public double simulatedTime = 0;
-    private List<VirtualObject> virtualObjectList;
+    public List<VirtualObject> virtualObjectList;
     float gravityConstant;
     Vector3[,] positionHistory;
 

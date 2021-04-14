@@ -8,7 +8,7 @@ using UnityEngine;
 
 public enum SceneStart
 {
-    AsIs, Empty, Load, Generate
+    AsIs, Empty, Load, Generate, FullyRandom
 }
 
 public class GameManager : MonoBehaviour
@@ -30,11 +30,13 @@ public class GameManager : MonoBehaviour
 
     UIManager uiManager;
     GenerationManager generationManager;
+    SimulationManager simulationManager;
 
     private void Awake()
     {
         uiManager = GetComponent<UIManager>();//We find the uiManager
         generationManager = GetComponent<GenerationManager>();//We find the generationManager
+        simulationManager = GetComponent<SimulationManager>();//We find the simultaionManager
     }
     private void Start()
     {
@@ -50,6 +52,10 @@ public class GameManager : MonoBehaviour
             case SceneStart.Generate:
                 ResetSolarSystem();
                 generationManager.SimpleGenerateSystem(PlayerPrefs.GetInt("flatPlane") == 1, PlayerPrefs.GetFloat("sunMass"), PlayerPrefs.GetFloat("sunSize"), PlayerPrefs.GetInt("planetNumber"), PlayerPrefs.GetInt("minMoonNumber"), PlayerPrefs.GetInt("maxMoonNumber"));
+                break;
+            case SceneStart.FullyRandom:
+                ResetSolarSystem();
+                generationManager.GenerateFullyRandom(PlayerPrefs.GetInt("bodyNumber"));
                 break;
             default:
                 break;
@@ -201,6 +207,20 @@ public class GameManager : MonoBehaviour
 
         return gObject;
     }
+
+    public void JumpTime(float timeStep, int stepCount)
+    {
+        simulationManager.Simulate(timeStep, stepCount);//We simulate the desired amount of time
+        absoluteTime = simulationManager.simulatedTime;//we set the new time to the simulated time
+
+        for (int i = 0; i < stellarObjectList.Count; i++)//We set the properties of each object to what we got through the simulation
+        {
+            stellarObjectList[i].Velocity = simulationManager.virtualObjectList[i].velocity;
+            stellarObjectList[i].transform.position = simulationManager.virtualObjectList[i].position;
+            stellarObjectList[i].Mass = simulationManager.virtualObjectList[i].mass;
+        }
+    }
+
     public static string[] GetSaveNames()
     {
         return Directory.GetFiles(Application.persistentDataPath, "*.sav");

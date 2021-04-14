@@ -43,8 +43,8 @@ public class UIManager : MonoBehaviour
 
 
     //Prediction stuff:
-    public string TimeStep { get; set; } = "0.5";
-    public string StepCount { get; set; } = "50";
+    public string TimeStep { get; set; } = "0.1";
+    public string StepCount { get; set; } = "2000";
     public bool AllPlanets { get; set; } = true;
     public double predictionTime;//The time at which we predicted the current trajectory
 
@@ -75,5 +75,10 @@ public class UIManager : MonoBehaviour
 
             selectedObject.transform.GetChild(1).GetComponent<UIPredictionOverlay>().positions = simulationManager.GetPositionHistoryOfObject(gameManager.stellarObjectList.IndexOf(selectedObject));
         }
+    }
+
+    public void JumpTime()
+    {
+        gameManager.JumpTime(float.Parse(TimeStep), int.Parse(StepCount));
     }
 }
