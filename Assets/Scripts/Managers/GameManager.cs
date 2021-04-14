@@ -13,7 +13,7 @@ public enum SceneStart
 
 public class GameManager : MonoBehaviour
 {
-    public static SceneStart sceneStart;
+    SceneStart sceneStart;
 
     public List<StellarObject> stellarObjectList;
     public float gravityConstant;
@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        sceneStart = (SceneStart)PlayerPrefs.GetInt("sceneStart");
+
         //We initialise the scene
         switch (sceneStart)
         {
@@ -268,7 +270,14 @@ public class GameManager : MonoBehaviour
         for (int i = stellarObjectList.Count - 1; i >= 0; i--)
         {
             Destroy(stellarObjectList[i].gameObject);
-            stellarObjectList.RemoveAt(i);
         }
+        stellarObjectList = new List<StellarObject>();
+    }
+
+    private void DestroyStellarObject(int index)
+    {
+        Destroy(GameObject.Find("OverlayCanvas").transform.GetChild(index).gameObject);//We destroy the overlay
+        Destroy(stellarObjectList[index].gameObject);//We destroy the object
+        stellarObjectList.RemoveAt(index);//We remove the object from our list
     }
 }

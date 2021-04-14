@@ -12,7 +12,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void NewEmptySim()
     {
-        GameManager.sceneStart = SceneStart.Empty;
+        PlayerPrefs.SetInt("sceneStart", (int)SceneStart.Empty);
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
     
@@ -25,7 +25,7 @@ public class MainMenuManager : MonoBehaviour
     public string MaxMoonNumber { get; set; }
     public void GenerateSystem()
     {
-        GameManager.sceneStart = SceneStart.Generate;
+        PlayerPrefs.SetInt("sceneStart", (int)SceneStart.Generate);
 
         PlayerPrefs.SetInt("flatPlane", FlatPlane ? 1 : 0);
         PlayerPrefs.SetFloat("sunMass", float.Parse(SunMass));
@@ -41,7 +41,7 @@ public class MainMenuManager : MonoBehaviour
     public string ObjectNumber { get; set; }
     public void FullyRandomSystem()
     {
-        GameManager.sceneStart = SceneStart.FullyRandom;
+        PlayerPrefs.SetInt("sceneStart", (int)SceneStart.FullyRandom);
         PlayerPrefs.SetInt("bodyNumber", int.Parse(ObjectNumber));
         PlayerPrefs.Save();
 
@@ -50,7 +50,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void LoadSystem(string fileName)
     {
-        GameManager.sceneStart = SceneStart.Load;
+        PlayerPrefs.SetInt("sceneStart", (int)SceneStart.Load);
 
         PlayerPrefs.SetString("fileNameToLoad", fileName);
         PlayerPrefs.Save();
