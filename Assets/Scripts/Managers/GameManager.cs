@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
     public enum CollisionMode { Rigid, Elastic, None}
     private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
     {
-        CollisionMode c = (CollisionMode)1;
+        CollisionMode c = CollisionMode.None;
 
         switch (c)
         {
