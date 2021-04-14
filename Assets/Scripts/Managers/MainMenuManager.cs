@@ -37,7 +37,16 @@ public class MainMenuManager : MonoBehaviour
 
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
-    
+
+    public string ObjectNumber { get; set; }
+    public void FullyRandomSystem()
+    {
+        GameManager.sceneStart = SceneStart.FullyRandom;
+        PlayerPrefs.SetInt("bodyNumber", int.Parse(ObjectNumber));
+        PlayerPrefs.Save();
+
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
+    }
 
     public void LoadSystem(string fileName)
     {
