@@ -121,6 +121,19 @@ public class SimulationManager : MonoBehaviour
                 break;
         }
     }
+    private void FusionCollider(VirtualObject bigObject, VirtualObject smallObject)
+    {
+        stellarObjectsIndexToRemove.Add(stellarObjectList.IndexOf(smallObject));//We delete the small object
+        bigObject.Mass += smallObject.Mass;//we add the mass of the small object to the big one
+    }
+    private void BounceCollider(VirtualObject objet1, VirtualObject objet2)
+    {
+        objet1.velocity = objet1.velocity * (objet1.mass - objet2.mass) / (objet2.mass + objet1.mass) +
+            2f * objet2.mass * objet2.velocity / (objet2.mass + objet1.mass);
+        objet2.velocity = objet1.velocity * (2f * objet1.mass) / (objet2.mass + objet1.mass) +
+            objet2.velocity * (objet2.mass - objet1.mass) / (objet2.mass + objet1.mass);
+    }
+
 
     //Cette fonction est prise d'une question sur stackoverflow:       https://stackoverflow.com/questions/16636019/how-to-get-1d-column-array-and-1d-row-array-from-2d-array-c-net
     public Vector3[] GetPositionHistoryOfObject(int index)
