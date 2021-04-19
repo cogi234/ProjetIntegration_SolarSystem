@@ -140,10 +140,9 @@ public class SimulationManager : MonoBehaviour
     }
     private void BounceCollider(VirtualObject objet1, VirtualObject objet2)
     {
-        objet1.velocity = objet1.velocity * (objet1.mass - objet2.mass) / (objet2.mass + objet1.mass) +
-            2f * objet2.mass * objet2.velocity / (objet2.mass + objet1.mass);
-        objet2.velocity = objet1.velocity * (2f * objet1.mass) / (objet2.mass + objet1.mass) +
-            objet2.velocity * (objet2.mass - objet1.mass) / (objet2.mass + objet1.mass);
+
+
+        objet2.position = objet1.position + (objet2.position - objet1.position).normalized * (objet1.radius + objet2.radius) * 1.05f;
     }
 
 
