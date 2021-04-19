@@ -164,10 +164,10 @@ public class GameManager : MonoBehaviour
     {
 
         stellarObjectsIndexToRemove.Add(stellarObjectList.IndexOf(smallObject));//We delete the small object
+        bigObject.Mass += smallObject.Mass;//we add the mass of the small object to the big one
         bigObject.Velocity = (bigObject.Mass * bigObject.Velocity + smallObject.Mass * smallObject.Velocity) / (bigObject.Mass + smallObject.Mass);
         bigObject.transform.position = (bigObject.Mass * bigObject.transform.position + smallObject.Mass * smallObject.transform.position) / (bigObject.Mass + smallObject.Mass);
         bigObject.Density = (bigObject.Density * bigObject.Mass + smallObject.Mass * smallObject.Density) / (bigObject.Mass + smallObject.Mass);
-        bigObject.Mass += smallObject.Mass;//we add the mass of the small object to the big one
     }
     private void BounceCollider(StellarObject objet1, StellarObject objet2) 
     {

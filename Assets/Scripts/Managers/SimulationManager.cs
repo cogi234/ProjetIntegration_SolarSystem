@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class SimulationManager : MonoBehaviour
@@ -7,6 +8,7 @@ public class SimulationManager : MonoBehaviour
     GameManager gameManager;
     public double simulatedTime = 0;
     public List<VirtualObject> virtualObjectList;
+    List<int> destroyedVirtualObjects;
     float gravityConstant;
     Vector3[,] positionHistory;
     GameManager.CollisionMode collisionMode;
@@ -21,6 +23,7 @@ public class SimulationManager : MonoBehaviour
     public void Simulate(float timeStep, int stepCount)
     {
         virtualObjectList = new List<VirtualObject>();
+        destroyedVirtualObjects = new List<int>();
         foreach (StellarObject X in gameManager.stellarObjectList)
         {
             virtualObjectList.Add(new VirtualObject(X));
@@ -37,6 +40,10 @@ public class SimulationManager : MonoBehaviour
             for (int j = 0; j < virtualObjectList.Count; j++)
             {
                 positionHistory[i, j] = virtualObjectList[j].position;
+                if (destroyedVirtualObjects.Contains(j))
+                {
+                    positionHistory[i, j] = positionHistory[i - 1, j];//If the object is destroyed, it doesn't move
+                }
             }
         }
     }
@@ -52,7 +59,6 @@ public class SimulationManager : MonoBehaviour
         foreach (VirtualObject A in virtualObjectList)
         {
             A.ApplyVelocity(timeStep);
-
         }
 
         DetectCollisions();
@@ -93,15 +99,18 @@ public class SimulationManager : MonoBehaviour
             {
                 for (int j = i + 1; j < count; j++)//We loop through every object after this one
                 {
-                    //We check to see if the distance is bigger tahn our radius + their radius, to see if objects i and j are colliding
-                    if (Vector3.Distance(virtualObjectList[i].position, virtualObjectList[j].position) >= virtualObjectList[i].radius + virtualObjectList[j].radius)
+                    if (!destroyedVirtualObjects.Contains(i) && !destroyedVirtualObjects.Contains(j))//we dont check destroyed objects
                     {
-                        //If they are colliding, we handle the collision
+                        //We check to see if the distance is bigger tahn our radius + their radius, to see if objects i and j are colliding
+                        if (Vector3.Distance(virtualObjectList[i].position, virtualObjectList[j].position) >= virtualObjectList[i].radius + virtualObjectList[j].radius)
+                        {
+                            //If they are colliding, we handle the collision
 
-                        if (virtualObjectList[i].mass > virtualObjectList[j].mass)
-                            HandleCollision(virtualObjectList[i], virtualObjectList[j]);
-                        else
-                            HandleCollision(virtualObjectList[j], virtualObjectList[i]);
+                            if (virtualObjectList[i].mass > virtualObjectList[j].mass)
+                                HandleCollision(virtualObjectList[i], virtualObjectList[j]);
+                            else
+                                HandleCollision(virtualObjectList[j], virtualObjectList[i]);
+                        }
                     }
                 }
             }
@@ -121,6 +130,22 @@ public class SimulationManager : MonoBehaviour
                 break;
         }
     }
+    private void FusionCollider(VirtualObject bigObject, VirtualObject smallObject)
+    {
+        destroyedVirtualObjects.Add(virtualObjectList.IndexOf(smallObject));//We delete the small object
+        smallObject.mass = 0.0000001f;//The small object wont affect the simulation much
+        bigObject.mass += smallObject.mass;//we add the mass of the small object to the big one
+        bigObject.velocity = (bigObject.mass * bigObject.velocity + smallObject.mass * smallObject.velocity) / (bigObject.mass + smallObject.mass);
+        bigObject.position = (bigObject.mass * bigObject.position + smallObject.mass * smallObject.position) / (bigObject.mass + smallObject.mass);
+    }
+    private void BounceCollider(VirtualObject objet1, VirtualObject objet2)
+    {
+        objet1.velocity = objet1.velocity * (objet1.mass - objet2.mass) / (objet2.mass + objet1.mass) +
+            2f * objet2.mass * objet2.velocity / (objet2.mass + objet1.mass);
+        objet2.velocity = objet1.velocity * (2f * objet1.mass) / (objet2.mass + objet1.mass) +
+            objet2.velocity * (objet2.mass - objet1.mass) / (objet2.mass + objet1.mass);
+    }
+
 
     //Cette fonction est prise d'une question sur stackoverflow:       https://stackoverflow.com/questions/16636019/how-to-get-1d-column-array-and-1d-row-array-from-2d-array-c-net
     public Vector3[] GetPositionHistoryOfObject(int index)
