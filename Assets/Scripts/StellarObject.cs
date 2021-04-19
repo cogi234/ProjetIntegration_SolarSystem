@@ -20,7 +20,7 @@ public class StellarObject : MonoBehaviour
         { 
             density = value;
             volume = mass / density;
-            transform.localScale = new Vector3(Radius/2, Radius/2, Radius/2);
+            transform.localScale = new Vector3(Radius*2, Radius*2, Radius*2);
         } 
     }
     public float Mass 
@@ -40,7 +40,7 @@ public class StellarObject : MonoBehaviour
         { 
             volume = value; 
             density = mass / volume;
-            transform.localScale = new Vector3(Radius/2, Radius/2, Radius/2);
+            transform.localScale = new Vector3(Radius*2, Radius*2, Radius*2);
         }  
     }
    

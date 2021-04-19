@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public bool paused = false;
     public double absoluteTime = 0;
     public bool centering = false;
-    public CollisionMode collisionMode = CollisionMode.Bounce;
+    public CollisionMode collisionMode = CollisionMode.Fusion;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
     [SerializeField] private GameObject axisOverlayPrefab;
@@ -129,9 +129,8 @@ public class GameManager : MonoBehaviour
             {
                 for (int j = i+1; j < count; j++)//We loop through every object after this one
                 {
-                    //We raycast with a max distance of our radius, to see if objects i and j are colliding
-                    RaycastHit hit;
-                    if (Physics.Raycast(stellarObjectList[i].transform.position, stellarObjectList[j].transform.position - stellarObjectList[i].transform.position, hitInfo: out hit, stellarObjectList[i].Radius))
+                    //We check to see if the distance is bigger than our radius + their radius, to see if objects i and j are colliding
+                    if (Vector3.Distance(stellarObjectList[i].transform.position, stellarObjectList[j].transform.position) <= stellarObjectList[i].Radius + stellarObjectList[j].Radius)
                     {
                         //If they are colliding, we handle the collision
 
@@ -148,6 +147,7 @@ public class GameManager : MonoBehaviour
     public enum CollisionMode { Fusion, Bounce, None}
     private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
     {
+        Debug.Log($"collision between {bigObject.name} and {smallObject.name}");
         switch (collisionMode)
         {
             case CollisionMode.Fusion:
