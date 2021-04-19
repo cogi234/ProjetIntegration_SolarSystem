@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public bool paused = false;
     public double absoluteTime = 0;
     public bool centering = false;
+    public CollisionMode collisionMode = CollisionMode.None;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
     [SerializeField] private GameObject axisOverlayPrefab;
@@ -147,9 +148,7 @@ public class GameManager : MonoBehaviour
     public enum CollisionMode { Fusion, Bounce, None}
     private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
     {
-        CollisionMode c = CollisionMode.None;
-
-        switch (c)
+        switch (collisionMode)
         {
             case CollisionMode.Fusion:
                 FusionCollider(bigObject, smallObject);

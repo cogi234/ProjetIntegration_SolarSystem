@@ -9,6 +9,7 @@ public class SimulationManager : MonoBehaviour
     public List<VirtualObject> virtualObjectList;
     float gravityConstant;
     Vector3[,] positionHistory;
+    GameManager.CollisionMode collisionMode;
 
     bool centering;//do we center the positions?
 
@@ -28,6 +29,7 @@ public class SimulationManager : MonoBehaviour
         gravityConstant = gameManager.gravityConstant;
         simulatedTime = gameManager.absoluteTime;
         centering = gameManager.centering;
+        collisionMode = gameManager.collisionMode;
 
         for (int i = 0; i < stepCount; i++)
         {
@@ -52,6 +54,8 @@ public class SimulationManager : MonoBehaviour
             A.ApplyVelocity(timeStep);
 
         }
+
+        DetectCollisions();
 
         //Centering the system in the same way as the gamemanager, to have a prediction that's synchronized
         if (virtualObjectList.Count > 0 && centering)
@@ -80,6 +84,43 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
+    private void DetectCollisions()
+    {
+        int count = virtualObjectList.Count;
+        if (count > 1)//we only do it if we have enough objects for collisions to be possible
+        {
+            for (int i = 0; i < count - 1; i++)//We loop through every object except the last one
+            {
+                for (int j = i + 1; j < count; j++)//We loop through every object after this one
+                {
+                    //We check to see if the distance is bigger tahn our radius + their radius, to see if objects i and j are colliding
+                    if (Vector3.Distance(virtualObjectList[i].position, virtualObjectList[j].position) >= virtualObjectList[i].radius + virtualObjectList[j].radius)
+                    {
+                        //If they are colliding, we handle the collision
+
+                        if (virtualObjectList[i].mass > virtualObjectList[j].mass)
+                            HandleCollision(virtualObjectList[i], virtualObjectList[j]);
+                        else
+                            HandleCollision(virtualObjectList[j], virtualObjectList[i]);
+                    }
+                }
+            }
+        }
+    }
+    private void HandleCollision(VirtualObject bigObject, VirtualObject smallObject)
+    {
+        switch (collisionMode)
+        {
+            case GameManager.CollisionMode.Fusion:
+                FusionCollider(bigObject, smallObject);
+                break;
+            case GameManager.CollisionMode.Bounce:
+                BounceCollider(bigObject, smallObject);
+                break;
+            case GameManager.CollisionMode.None:
+                break;
+        }
+    }
 
     //Cette fonction est prise d'une question sur stackoverflow:       https://stackoverflow.com/questions/16636019/how-to-get-1d-column-array-and-1d-row-array-from-2d-array-c-net
     public Vector3[] GetPositionHistoryOfObject(int index)
@@ -100,12 +141,14 @@ public class VirtualObject
     public Vector3 position;
     public Vector3 velocity;
     public float mass;
+    public float radius;
     
     public VirtualObject(StellarObject X)
     {
         position = X.transform.position;
         velocity = X.Velocity;
         mass = X.Mass;
+        radius = X.Radius;
     }
     public void ApplyGravity(float time, List<VirtualObject> list, float gravityConstant)
     {
