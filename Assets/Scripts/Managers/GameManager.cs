@@ -162,7 +162,11 @@ public class GameManager : MonoBehaviour
     }
     private void FusionCollider(StellarObject bigObject, StellarObject smallObject) 
     {
+
         stellarObjectsIndexToRemove.Add(stellarObjectList.IndexOf(smallObject));//We delete the small object
+        bigObject.Velocity = (bigObject.Mass * bigObject.Velocity + smallObject.Mass * smallObject.Velocity) / (bigObject.Mass + smallObject.Mass);
+        bigObject.transform.position = (bigObject.Mass * bigObject.transform.position + smallObject.Mass * smallObject.transform.position) / (bigObject.Mass + smallObject.Mass);
+        bigObject.Density = (bigObject.Density * bigObject.Mass + smallObject.Mass * smallObject.Density) / (bigObject.Mass + smallObject.Mass);
         bigObject.Mass += smallObject.Mass;//we add the mass of the small object to the big one
     }
     private void BounceCollider(StellarObject objet1, StellarObject objet2) 
@@ -172,7 +176,6 @@ public class GameManager : MonoBehaviour
         objet2.Velocity = objet1.Velocity * (2f * objet1.Mass) / (objet2.Mass + objet1.Mass) +
             objet2.Velocity * (objet2.Mass - objet1.Mass) / (objet2.Mass + objet1.Mass);
     }
-
 
     public void CreateStellarObjectUI(StellarObject stellarObject)
     {
