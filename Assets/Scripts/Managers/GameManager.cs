@@ -165,9 +165,12 @@ public class GameManager : MonoBehaviour
         stellarObjectsIndexToRemove.Add(stellarObjectList.IndexOf(smallObject));//We delete the small object
         bigObject.Mass += smallObject.Mass;//we add the mass of the small object to the big one
     }
-    private void BounceCollider(StellarObject bigObject, StellarObject smallObject) 
-    { 
-        
+    private void BounceCollider(StellarObject objet1, StellarObject objet2) 
+    {
+        objet1.Velocity = objet1.Velocity * (objet1.Mass - objet2.Mass) / (objet2.Mass + objet1.Mass) +
+            2f * objet2.Mass * objet2.Velocity / (objet2.Mass + objet1.Mass);
+        objet2.Velocity = objet1.Velocity * (2f * objet1.Mass) / (objet2.Mass + objet1.Mass) +
+            objet2.Velocity * (objet2.Mass - objet1.Mass) / (objet2.Mass + objet1.Mass);
     }
 
 
