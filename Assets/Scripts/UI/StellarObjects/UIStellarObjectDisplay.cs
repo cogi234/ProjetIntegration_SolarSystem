@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class UIStellarObjectDisplay : MonoBehaviour
 {
     UIManager uiManager;
+    GameManager gameManager;
 
     [SerializeField] InputField nameInput;
     [SerializeField] InputField massInput;
@@ -26,6 +27,7 @@ public class UIStellarObjectDisplay : MonoBehaviour
     private void Start()
     {
         uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();//We find the uiManager
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();//We find the game manager
     }
 
     private void Update()
@@ -97,4 +99,11 @@ public class UIStellarObjectDisplay : MonoBehaviour
         uiManager.SelectedObject.transform.position = new Vector3(float.Parse(positionXInput.text), float.Parse(positionYInput.text), float.Parse(positionZInput.text));
     }
 
+    public void DestroyObject()
+    {
+        if (uiManager.SelectedObject != null)//We add the selected object to the todestroy list
+        {
+            gameManager.stellarObjectsIndexToRemove.Add(gameManager.stellarObjectList.IndexOf(uiManager.SelectedObject));
+        }
+    }
 }
