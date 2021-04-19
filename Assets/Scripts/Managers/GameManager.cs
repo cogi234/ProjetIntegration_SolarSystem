@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public bool paused = false;
     public double absoluteTime = 0;
     public bool centering = false;
-    public CollisionMode collisionMode = CollisionMode.Fusion;
+    public CollisionMode collisionMode = CollisionMode.Bounce;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
     [SerializeField] private GameObject axisOverlayPrefab;
@@ -175,6 +175,9 @@ public class GameManager : MonoBehaviour
             2f * objet2.Mass * objet2.Velocity / (objet2.Mass + objet1.Mass);
         objet2.Velocity = objet1.Velocity * (2f * objet1.Mass) / (objet2.Mass + objet1.Mass) +
             objet2.Velocity * (objet2.Mass - objet1.Mass) / (objet2.Mass + objet1.Mass);
+
+
+        objet2.transform.position = objet1.transform.position + (objet2.transform.position - objet1.transform.position).normalized * (objet1.Radius + objet2.Radius) * 1.05f;
     }
 
     public void CreateStellarObjectUI(StellarObject stellarObject)
