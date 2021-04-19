@@ -147,7 +147,6 @@ public class GameManager : MonoBehaviour
     public enum CollisionMode { Fusion, Bounce, None}
     private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
     {
-        Debug.Log($"collision between {bigObject.name} and {smallObject.name}");
         switch (collisionMode)
         {
             case CollisionMode.Fusion:
