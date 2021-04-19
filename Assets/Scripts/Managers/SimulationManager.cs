@@ -36,6 +36,7 @@ public class SimulationManager : MonoBehaviour
 
         for (int i = 0; i < stepCount; i++)
         {
+            //Debug.Log("step " + i);
             SimulateTimeStep(timeStep);
             for (int j = 0; j < virtualObjectList.Count; j++)
             {
@@ -102,10 +103,9 @@ public class SimulationManager : MonoBehaviour
                     if (!destroyedVirtualObjects.Contains(i) && !destroyedVirtualObjects.Contains(j))//we dont check destroyed objects
                     {
                         //We check to see if the distance is bigger tahn our radius + their radius, to see if objects i and j are colliding
-                        if (Vector3.Distance(virtualObjectList[i].position, virtualObjectList[j].position) >= virtualObjectList[i].radius + virtualObjectList[j].radius)
+                        if (Vector3.Distance(virtualObjectList[i].position, virtualObjectList[j].position) <= virtualObjectList[i].radius + virtualObjectList[j].radius)
                         {
                             //If they are colliding, we handle the collision
-
                             if (virtualObjectList[i].mass > virtualObjectList[j].mass)
                                 HandleCollision(virtualObjectList[i], virtualObjectList[j]);
                             else

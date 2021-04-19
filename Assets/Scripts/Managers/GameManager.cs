@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public bool paused = false;
     public double absoluteTime = 0;
     public bool centering = false;
-    public CollisionMode collisionMode = CollisionMode.None;
+    public CollisionMode collisionMode = CollisionMode.Bounce;
 
     [SerializeField] private GameObject stellarObjectUIPrefab;
     [SerializeField] private GameObject axisOverlayPrefab;
