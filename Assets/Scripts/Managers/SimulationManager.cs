@@ -140,7 +140,11 @@ public class SimulationManager : MonoBehaviour
     }
     private void BounceCollider(VirtualObject objet1, VirtualObject objet2)
     {
+        Vector3 normal = (objet1.position - objet2.position).normalized;
+        Vector3 normalVelocity = Vector3.Dot(objet1.velocity - objet2.velocity, normal) * normal;
 
+        objet1.velocity -= (2 * objet2.mass / (objet1.mass + objet2.mass)) * normalVelocity;
+        objet2.velocity += (2 * objet1.mass / (objet1.mass + objet2.mass)) * normalVelocity;
 
         objet2.position = objet1.position + (objet2.position - objet1.position).normalized * (objet1.radius + objet2.radius) * 1.05f;
     }

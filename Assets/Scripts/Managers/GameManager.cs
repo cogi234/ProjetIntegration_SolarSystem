@@ -170,6 +170,11 @@ public class GameManager : MonoBehaviour
     }
     private void BounceCollider(StellarObject objet1, StellarObject objet2) 
     {
+        Vector3 normal = (objet1.transform.position - objet2.transform.position).normalized;
+        Vector3 normalVelocity = Vector3.Dot(objet1.Velocity - objet2.Velocity, normal) * normal;
+
+        objet1.Velocity -= (2 * objet2.Mass / (objet1.Mass + objet2.Mass)) * normalVelocity;
+        objet2.Velocity += (2 * objet1.Mass / (objet1.Mass + objet2.Mass)) * normalVelocity;
 
 
         objet2.transform.position = objet1.transform.position + (objet2.transform.position - objet1.transform.position).normalized * (objet1.Radius + objet2.Radius) * 1.05f;

@@ -76,7 +76,7 @@ public class StellarObject : MonoBehaviour
         Vector3 totalForce = new Vector3();
         foreach (StellarObject X in gameManager.stellarObjectList)
         {
-            if (X != this && X.transform.position != transform.position)
+            if (X != this && Vector3.Distance(X.transform.position, transform.position) < 0.0001f)
             {
                 float GravityForce = (Mass * X.Mass * gameManager.gravityConstant)
                     / Mathf.Pow(Vector3.Distance(X.transform.position, transform.position), 2);
