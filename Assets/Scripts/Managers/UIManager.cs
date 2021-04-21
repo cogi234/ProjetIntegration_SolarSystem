@@ -30,6 +30,10 @@ public class UIManager : MonoBehaviour
         simulationManager = GetComponent<SimulationManager>();
     }
 
+    public void CollisionMode(int mode)
+    {
+        gameManager.collisionMode = (GameManager.CollisionMode)mode;
+    }
 
     public bool Centering {
         get
