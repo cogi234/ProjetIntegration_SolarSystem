@@ -8654,7 +8654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 2
   movementSpeed: 5
-  accelerationConstant: 0.5
+  accelerationConstant: 1.1
   startingSpeed: 5
   reframingFOV: 1.5
   zoomSensitivity: 0.1

@@ -96,9 +96,9 @@ public class CameraMovement : MonoBehaviour
         }
         //control WASD movement
         transform.Translate(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime, Space.Self);
-        if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Vertical") == 1) 
+        if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Vertical") == 1 || Input.GetAxis("Horizontal") == -1 || Input.GetAxis("Vertical") == -1) 
         {
-            movementSpeed += accelerationConstant * Time.deltaTime;
+            movementSpeed += Mathf.Pow(accelerationConstant, Time.deltaTime);
         }
         else
         {
