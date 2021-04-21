@@ -17,8 +17,9 @@ public class CameraMovement : MonoBehaviour
     private GameManager gameManager;
     private UIManager uiManager;
     [SerializeField] float mouseSensitivity;
-    float movementSpeed =5;
+    [SerializeField] float movementSpeed = 5;
     [SerializeField] float accelerationConstant = 0.5f;
+    [SerializeField] float startingSpeed = 5;
     [SerializeField] float reframingFOV;
     [SerializeField] float zoomSensitivity;
 
@@ -97,7 +98,11 @@ public class CameraMovement : MonoBehaviour
         transform.Translate(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime, Space.Self);
         if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Vertical") == 1) 
         {
-            movementSpeed += accelerationConstant * Time.deltaTime; 
+            movementSpeed += accelerationConstant * Time.deltaTime;
+        }
+        else
+        {
+            movementSpeed = startingSpeed;
         }
 
         //auto adjust camera to show the whole solar system (paired with Gamemanager)
