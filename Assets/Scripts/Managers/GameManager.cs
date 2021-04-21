@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject predictionOverlayPrefab;
     [SerializeField] private GameObject stellarObjectPrefab;
     [SerializeField] private GameObject sunObjectPrefab;
+    [SerializeField] private Material[] planetMaterials;
 
     UIManager uiManager;
     GenerationManager generationManager;
@@ -221,6 +222,8 @@ public class GameManager : MonoBehaviour
         sObject.Mass = mass;
         sObject.Density = density;
         sObject.Velocity = velocity;
+
+        sObject.GetComponent<MeshRenderer>().material = planetMaterials[GenerationManager.random.Next(planetMaterials.Length)];
 
         sObject.Initialise();
 

@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5311451
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8432,8 +8432,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 5, y: 5}
+  m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1226876176
 MonoBehaviour:
@@ -8477,7 +8477,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1226876177}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5311450}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1226876177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10334,14 +10345,24 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Q = toggle the cursor
+  m_Text: 'Q = Toggle the cursor
 
-    F = change between centered and free camera
 
-    WASD
-    = move the camera in free camera mode
+    F = Change between centered and free camera
 
-    Space='
+
+    R
+    = Center camera so that everything is in frame
+
+
+    WASD = Move the camera in
+    free camera mode
+
+
+    Space = Pause and unpause the game
+
+
+'
 --- !u!222 &1812448133
 CanvasRenderer:
   m_ObjectHideFlags: 0
