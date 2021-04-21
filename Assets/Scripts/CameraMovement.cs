@@ -41,8 +41,16 @@ public class CameraMovement : MonoBehaviour
         //Lock and unlock mouse
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (Cursor.lockState == CursorLockMode.None) { Cursor.lockState = CursorLockMode.Locked; }
-            else { Cursor.lockState = CursorLockMode.None; }
+            if (Cursor.lockState == CursorLockMode.None) 
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else 
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
         }
         //Switch between camera modes
         if (Input.GetKeyDown(KeyCode.F))

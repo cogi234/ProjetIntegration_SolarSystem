@@ -251,6 +251,8 @@ public class GameManager : MonoBehaviour
         Queue<string> saveContent = new Queue<string>();
         //First, we add the gameManager data
         saveContent.Enqueue(gravityConstant.ToString());
+        saveContent.Enqueue(absoluteTime.ToString());
+        saveContent.Enqueue(collisionMode.ToString());
         //Then we add every stellar object
         foreach (StellarObject sObject in stellarObjectList)
         {
@@ -274,7 +276,8 @@ public class GameManager : MonoBehaviour
 
         //We load the gameManager data
         gravityConstant = float.Parse(saveContent.Dequeue());
-
+        absoluteTime = double.Parse(saveContent.Dequeue());
+        collisionMode = (CollisionMode)int.Parse(saveContent.Dequeue());
 
         //As long as some data remains, we continue to create stellarObjects
         while(saveContent.Count > 0)
@@ -295,6 +298,8 @@ public class GameManager : MonoBehaviour
                 CreateStellarObject(name, mass, density, velocity, position);
             }
         }
+
+        paused = true;
     }
 
     private void ResetSolarSystem()//This is a function to reset the solar system to empty.
