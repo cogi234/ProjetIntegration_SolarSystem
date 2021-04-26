@@ -12,6 +12,7 @@ public class CameraMovement : MonoBehaviour
     private CameraMode cameraMode = CameraMode.Centered;
     private Transform centeredFocus;
     private float distanceFromFocus = 15;
+    const float MaxDistanceFromFocus = 35000;
     private Vector3 angleFromFocus = Vector3.zero;
 
     private GameManager gameManager;
@@ -129,6 +130,7 @@ public class CameraMovement : MonoBehaviour
             angleFromFocus += new Vector3(Input.GetAxis("Mouse Y") * mouseSensitivity, Input.GetAxis("Mouse X") * mouseSensitivity, 0);
 
             distanceFromFocus *= 1 + (-Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity);
+            distanceFromFocus = Mathf.Min(distanceFromFocus, MaxDistanceFromFocus);//We can't zoom further out, otherwise floating point positions break down
         }
 
         //We use the angle and distance from the focus to move the camera
