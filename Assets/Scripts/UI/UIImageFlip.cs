@@ -8,7 +8,14 @@ public class UIImageFlip : MonoBehaviour
     [SerializeField]Sprite stateTrue, stateFalse;//the two sprites we will switch between
     Image image;
     bool state = false;
-    public bool State { get => state; }
+    public bool State { 
+        get => state; 
+        set 
+        {
+            if (value != state)
+                SwitchState();
+        } 
+    }
 
 
     private void Start()

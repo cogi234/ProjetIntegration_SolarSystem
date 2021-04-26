@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UICreateMenu : MonoBehaviour
 {
@@ -25,16 +26,19 @@ public class UICreateMenu : MonoBehaviour
     }
 
     //Plain Creation:
+    [SerializeField] UIImageFlip pauseButton;
     public void CreatePlanet()
     {
         //It creates a planet and then selects it.
         StellarObject s = gameManager.CreateStellarObject("New Planet", 1, 1, Vector3.one, Vector3.one).GetComponent<StellarObject>();
         gameManager.paused = true;
+        pauseButton.State = false;
     }
     public void CreateSun()
     {
         //It creates a planet and then selects it.
         StellarObject s = gameManager.CreateSun("New Planet", 1, 1, Vector3.one, Vector3.one).GetComponent<StellarObject>();
         gameManager.paused = true;
+        pauseButton.State = false;
     }
 }

@@ -210,6 +210,8 @@ public class GameManager : MonoBehaviour
         sObject.Density = density;
         sObject.Velocity = velocity;
 
+        uiManager.SelectedObject = sObject;
+
         sObject.Initialise();
 
         return gObject;
@@ -222,6 +224,8 @@ public class GameManager : MonoBehaviour
         sObject.Mass = mass;
         sObject.Density = density;
         sObject.Velocity = velocity;
+
+        uiManager.SelectedObject = sObject;
 
         sObject.GetComponent<MeshRenderer>().material = planetMaterials[GenerationManager.random.Next(planetMaterials.Length)];
 
