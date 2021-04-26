@@ -57,4 +57,29 @@ public class MainMenuManager : MonoBehaviour
 
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
+
+    //Aligning on start
+    [SerializeField] RectTransform titleText;
+    [SerializeField] RectTransform[] buttons;
+
+    const int buttonsHeight = 60;
+
+    private void Start()
+    {
+        int heightForButtons = Mathf.Max(Screen.height * 2 / 3, buttonsHeight * buttons.Length);//We need at least enough space for the buttons
+
+        int totalSpaceBetweenButtons = heightForButtons - (buttonsHeight * buttons.Length);
+        int spaceBetweenButtons = totalSpaceBetweenButtons / buttons.Length;
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            int y = (i * buttonsHeight) + ((i + 1) * spaceBetweenButtons);
+            buttons[i].position = new Vector3(Screen.width / 2, y, 0);
+        }
+
+        int heightForTitle = Screen.height - heightForButtons;
+
+        titleText.position = new Vector3(Screen.width / 2, Screen.height - (heightForTitle / 3), 0);
+    }
+
 }
