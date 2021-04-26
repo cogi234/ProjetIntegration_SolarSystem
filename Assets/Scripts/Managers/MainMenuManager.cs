@@ -64,7 +64,7 @@ public class MainMenuManager : MonoBehaviour
 
     const int buttonsHeight = 60;
 
-    private void Start()
+    private void Update()
     {
         int heightForButtons = Mathf.Max(Screen.height * 2 / 3, buttonsHeight * buttons.Length);//We need at least enough space for the buttons
 
