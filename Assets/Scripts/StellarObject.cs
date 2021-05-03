@@ -81,17 +81,15 @@ public class StellarObject : MonoBehaviour
                 float GravityForce = (Mass * X.Mass * gameManager.gravityConstant)
                     / Mathf.Pow(Vector3.Distance(X.transform.position, transform.position), 2);
                 Vector3 direction = (X.transform.position - transform.position).normalized * GravityForce;
-                ApplyForce(direction, time);
                 totalForce += direction;
             }
         }
-        acceleration = totalForce / mass ;
+        ApplyForce(totalForce, time);
     }
     
     //cree un vecteur force a partir dun un objet stellaire
     public void ApplyForce(Vector3 force, float time)
     {
-        //Vector3 acc = force / Mass;
         Velocity += (force / Mass) * time;
     }
 

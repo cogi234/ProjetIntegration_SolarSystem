@@ -188,9 +188,9 @@ public class VirtualObject
                 float GravityForce = (mass * X.mass * gravityConstant)
                     / Mathf.Pow(Vector3.Distance(X.position, position), 2);
                 Vector3 direction = (X.position - position).normalized * GravityForce;
-                ApplyForce(direction, time);
                 totalForce += direction;
             }
+            ApplyForce(totalForce, time);
         }
     }
 
