@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject messagePrefab;
     [SerializeField] Transform mainCanvas;
-    const double messageTime = 5;
+    const double messageTime = 2.5;
     public void DisplayMessage(string message)
     {
         GameObject messageObject =  Instantiate(messagePrefab, mainCanvas);
