@@ -12,7 +12,7 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] float minDensity = 1f;
     [SerializeField] float maxDensity = 6f;
     [SerializeField] float minOrbitRadiusMultiplier = 500f;
-    [SerializeField] float maxOrbitRadiusMultiplier = 2000f;
+    [SerializeField] float maxOrbitRadiusMultiplier = 10000f;
 
 
 

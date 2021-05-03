@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public enum CollisionMode { Fusion, Bounce, None}
+    public enum CollisionMode { Bounce, Fusion, None}
     private void HandleCollision(StellarObject bigObject, StellarObject smallObject)
     {
         switch (collisionMode)

@@ -40,7 +40,9 @@ public class UIManager : MonoBehaviour
 
     public void CollisionMode(int mode)
     {
+        Debug.Log(mode);
         gameManager.collisionMode = (GameManager.CollisionMode)mode;
+        Debug.Log(gameManager.collisionMode);
     }
 
     public bool Centering {
