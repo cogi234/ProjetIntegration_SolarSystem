@@ -125,7 +125,7 @@ public class GenerationManager : MonoBehaviour
         }
     }
 
-    float GetRandomFloat(float min, float max)
+    public float GetRandomFloat(float min, float max)
     {
         return ((float)random.NextDouble() * (max - min)) + min;
     }
