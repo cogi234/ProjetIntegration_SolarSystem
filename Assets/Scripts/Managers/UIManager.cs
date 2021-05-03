@@ -22,10 +22,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject messagePrefab;
     [SerializeField] Transform mainCanvas;
-    public void DisplayMessage(string message, double time)
+    const double messageTime = 5;
+    public void DisplayMessage(string message)
     {
         GameObject messageObject =  Instantiate(messagePrefab, mainCanvas);
-        messageObject.GetComponent<UIMessage>().Initialise(message, time);
+        messageObject.GetComponent<UIMessage>().Initialise(message, messageTime);
     }
 
 
