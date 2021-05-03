@@ -36,7 +36,6 @@ public class SimulationManager : MonoBehaviour
 
         for (int i = 0; i < stepCount; i++)
         {
-            //Debug.Log("step " + i);
             SimulateTimeStep(timeStep);
             for (int j = 0; j < virtualObjectList.Count; j++)
             {
@@ -180,17 +179,15 @@ public class VirtualObject
     }
     public void ApplyGravity(float time, List<VirtualObject> list, float gravityConstant)
     {
-        Vector3 totalForce = new Vector3();
         foreach (VirtualObject X in list)
         {
-            if (X != this)
+            if (X != this && Vector3.Distance(X.position, position) > 0.0001f)
             {
                 float GravityForce = (mass * X.mass * gravityConstant)
                     / Mathf.Pow(Vector3.Distance(X.position, position), 2);
                 Vector3 direction = (X.position - position).normalized * GravityForce;
-                totalForce += direction;
+                ApplyForce(direction, time);
             }
-            ApplyForce(totalForce, time);
         }
     }
 
