@@ -73,18 +73,16 @@ public class StellarObject : MonoBehaviour
     //prend chaque objet stellaire environnant (masse et distance) et calcule la force appliquée sur l'objet principal
     public void ApplyGravity(float time)
     {
-        Vector3 totalForce = new Vector3();
         foreach (StellarObject X in gameManager.stellarObjectList)
         {
-            if (X != this && Vector3.Distance(X.transform.position, transform.position) < 0.0001f)
+            if (X != this && Vector3.Distance(X.transform.position, transform.position) > 0.0001f)
             {
                 float GravityForce = (Mass * X.Mass * gameManager.gravityConstant)
                     / Mathf.Pow(Vector3.Distance(X.transform.position, transform.position), 2);
                 Vector3 direction = (X.transform.position - transform.position).normalized * GravityForce;
-                totalForce += direction;
+                ApplyForce(direction, time);
             }
         }
-        ApplyForce(totalForce, time);
     }
     
     //cree un vecteur force a partir dun un objet stellaire
