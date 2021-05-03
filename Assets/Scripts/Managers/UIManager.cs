@@ -20,6 +20,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [SerializeField] GameObject messagePrefab;
+    [SerializeField] Transform mainCanvas;
+    public void DisplayMessage(string message, double time)
+    {
+        GameObject messageObject =  Instantiate(messagePrefab, mainCanvas);
+        messageObject.GetComponent<UIMessage>().Initialise(message, time);
+    }
 
 
     GameManager gameManager;

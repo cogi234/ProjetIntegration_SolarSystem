@@ -29,15 +29,15 @@ public class UICreateMenu : MonoBehaviour
     [SerializeField] UIImageFlip pauseButton;
     public void CreatePlanet()
     {
-        //It creates a planet and then selects it.
-        StellarObject s = gameManager.CreateStellarObject("New Planet", 1, 1, Vector3.one, Vector3.one).GetComponent<StellarObject>();
+        gameManager.CreateStellarObject("New Planet", 1, 1, Vector3.one, Vector3.one);
+
         gameManager.paused = true;
         pauseButton.State = false;
     }
     public void CreateSun()
     {
-        //It creates a planet and then selects it.
-        StellarObject s = gameManager.CreateSun("New Planet", 1, 1, Vector3.one, Vector3.one).GetComponent<StellarObject>();
+        gameManager.CreateSun("New Sun", 1, 1, Vector3.one, Vector3.one);
+
         gameManager.paused = true;
         pauseButton.State = false;
     }

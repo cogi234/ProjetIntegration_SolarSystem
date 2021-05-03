@@ -28,7 +28,7 @@ public class CameraMovement : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         uiManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         centeredFocus = new GameObject("Camera Focus").transform;
