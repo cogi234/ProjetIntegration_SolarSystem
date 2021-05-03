@@ -2966,25 +2966,19 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Q = Toggle the cursor
-
-
-    F = Change between centered and free camera
-
-
-    R
-    = Center camera so that everything is in frame
-
-
-    WASD = Move the camera in
-    free camera mode
-
-
-    Space = Pause and unpause the game
-
-
-    Click on a planet
-    to select it'
+  m_Text: "\n\n\t\t\tQ : \t       Toggles cursor mode on / off. \r\n\t\t\t\t\t\t      
+    When ON, you can select stellar objects or interract with the UI using MB1. \r\n\t\t\t\t\t\t      
+    When OFF, your cursor will dissapear. Mouse movement will be used to look around.\r\n\r\n\n\t\t\tF
+    : \t       Toggles camera mode centered / free. \r\n\t\t    \t\t    \t    When
+    centered, mouse movement allows you look around, while keeping the selected stellar
+    object in the center of the screen.\r\n\t\t      \t\t\t        When free, mouse
+    movement allows you to look around freely.\r\n\r\n\n\t\t\tWASD :  Move around
+    viewing position\r\n\t\t           \t\t\t    This only works in free camera mode.\r\n\r\n\n\t\t\tR
+    : \t       Recenters your viewing position and orientation to display all stellar
+    objects.\r\n\t\t           \t\t\t\tThis only works in free camera mode.\r\n\r\n\n\t\t\tSpace
+    :   Toggles play / pause\r\n\t\t            \t\t\t When on play, time changes.\r\n\t\t          
+    \t\t\t\t When on pause, time is frozen. Stellar objets do not interract with
+    their velocity or with each other.\r\n\r\n\n\n"
 --- !u!222 &400583098
 CanvasRenderer:
   m_ObjectHideFlags: 0
