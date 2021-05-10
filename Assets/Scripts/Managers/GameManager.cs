@@ -258,7 +258,7 @@ public class GameManager : MonoBehaviour
         //First, we add the gameManager data
         saveContent.Enqueue(gravityConstant.ToString());
         saveContent.Enqueue(absoluteTime.ToString());
-        saveContent.Enqueue(collisionMode.ToString());
+        saveContent.Enqueue(((int)collisionMode).ToString());
         //Then we add every stellar object
         foreach (StellarObject sObject in stellarObjectList)
         {
@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
     public void LoadSolarSystem(string fileName)
     {
         //We reset the field
-        ResetSolarSystem();        
+        ResetSolarSystem();
 
         //we take the file
         string saveString = File.ReadAllText($"{Application.persistentDataPath}/{fileName}.sav");
@@ -310,9 +310,9 @@ public class GameManager : MonoBehaviour
 
     private void ResetSolarSystem()//This is a function to reset the solar system to empty.
     {
-        for (int i = 0; i < stellarObjectList.Count; i++)
+        for (int i = stellarObjectList.Count -  1; i >= 0; i--)
         {
-            stellarObjectsIndexToRemove.Add(i);
+            DestroyStellarObject(i);
         }
     }
 

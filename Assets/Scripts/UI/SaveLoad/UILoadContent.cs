@@ -11,7 +11,7 @@ public class UILoadContent : MonoBehaviour
     private MainMenuManager mainMenuManager;
 
 
-    private void Start()
+    private void Awake()
     {
         if (SceneManager.GetActiveScene().buildIndex == 1)
             gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();//We find the gamemanager
